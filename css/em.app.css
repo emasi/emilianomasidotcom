@@ -1,4 +1,4 @@
-/*-- BEGIN: General rules --*/
+/*-- BEGIN: General element rules --*/
 .ir {
 background-color:transparent;
 border:0;
@@ -211,4 +211,67 @@ min-width:320px;
 height:auto;
 overflow:visible;
 }
-/*-- END: General rules --*/
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+display: block;
+}
+/*-- END: General element rules --*/
+
+/*-- BEGIN: Common rules --*/
+.z-max {
+z-index: 9999;
+}
+/*-- END: Common rules --*/
+.opening-header {
+  background: url('../images/opening_header_hd.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale')";
+  min-width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+}
+#content {
+background: #fff;
+position: absolute;
+right: 0;
+left: 0;
+}
+#top-bar >div {
+height: 100%;
+float: left;
+text-align: center;
+}
+#top-bar {
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+min-width: 320px;
+height: 46px;
+background-color: #252525;
+background: rgba(0, 0, 0, 0.8);
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+top: 0;
+width: 100%;
+max-width: 100%;
+border-bottom: 1px solid #e1e4e6;
+}
+.avatar{
+width: 60px;
+background-image: url('https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png');
+background-repeat: no-repeat;
+background-position: 6px 5px;
+}
+
+/*-- BEGIN: Desktop Mediaquery --*/
+@media only screen and (min-width: 768px){
+  #top-bar {
+  height: 59px;
+  }
+/*-- END: Desktop Mediaquery --*/
+}

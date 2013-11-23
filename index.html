@@ -1,17 +1,39 @@
 <!DOCTYPE HTML>
-<html>
+<html ng-app="em">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="initial-scale=1, minimum-scale=1, user-scalable=no, maximum-scale=1, width=device-width" name="viewport">
+    <meta content="telephone=no" name="format-detection">
     <title>title</title>
     
-    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/emmain.css" type="text/css" media="screen" />
+    <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" media="screen" rel="stylesheet">
+    <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed:400" media="screen" rel="stylesheet">
     
-    <script src="js/modernizr.custom.58714.js"></script>
-    <script src="js/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/em.app.css" type="text/css" media="screen" />
+    
+    <script src="js/modernizr.js"></script>
     
   </head>
-  <body>
+  
+  <body ng-controller="MainCtrl">
+    <div class="opening-header"></div>
+    <header>
+    </header>
+    <div class="container z-max" id="content">
+      <div id="top-bar" class="z-max" role="top-navigation">
+        <div class="avatar"></div>
+        <div class="complete-name">
+          Emiliano Masi
+        </div>
+        <nav class="dropdown sectionsList" role="navigation" data-name="emSectionsList">
+        </nav>
+      </div>
+    </div>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js"></script>
+    <script src="js/em.app.js"></script>
   </body>
+  
 </html>
