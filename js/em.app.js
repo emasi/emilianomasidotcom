@@ -52,6 +52,7 @@ angular.module("em").directive("container", [function(){
       winObj.on("resize", function(){
         setMarginTop();
       });
+      element.removeClass("hidden");
     }
   }
 }]);
@@ -112,17 +113,18 @@ var TopBarDirective = AbstractAngularDirective.extend({
     });
   },
   calculatePositioning: function(){
-    if(this.scrollService.scrollTop() < $("header").outerHeight()-5){
+    var currentHeight = this.$element.outerHeight();
+    if(this.scrollService.scrollTop() < $("header").outerHeight()){
       if(!this.isInPositionRelative){
         this.$element.css("position","relative");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().find('#content').css('margin-top', '0');
+        this.$element.parent().children("#content").css("margin-top","0");
       }
     }else{
       if(this.isInPositionRelative){
         this.$element.css("position","fixed");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().find('#content').css('margin-top', this.$element.outerHeight());
+        this.$element.parent().children("#content").css("margin-top", currentHeight+"px");
       }
     }
   }
