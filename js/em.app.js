@@ -41,15 +41,14 @@ angular.module("em").controller("MainCtrl", ["$scope", "$timeout", function(scop
   }, 50);
 }]);
 
-angular.module("em").directive("content", [function(){
+angular.module("em").directive("container", [function(){
   var winObj = $(window);
   function setMarginTop(){
-    $("#content").css('margin-top', $('header').outerHeight()+"px");
+    $("#container").css('margin-top', $('header').outerHeight()+"px");
   }
   return {
     link: function (scope, element, attrs){
       setMarginTop();
-      console.log(window)
       winObj.on("resize", function(){
         setMarginTop();
       });
@@ -57,20 +56,20 @@ angular.module("em").directive("content", [function(){
   }
 }]);
 
-angular.module("em").directive("topBar", ["$rootScope", "scrollService", function(rootScope, scrollService){
+angular.module("em").directive("topBar", ["$rootScope", "$window", "scrollService", function(rootScope, window,scrollService){
   var topBarDirectiveInstance;
   return {
     link: function(scope, element, attrs) {
-      topBarDirectiveInstance = new TopBarDirective(scope, element, attrs, rootScope, scrollService);
+      topBarDirectiveInstance = new TopBarDirective(scope, element, attrs, rootScope, window, scrollService);
     }
   }
 }]);
 
 angular.module("em").service("scrollService", ["$rootScope", "$timeout", function(rootScope, timeout) {
-  var window = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight();
+  var win = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight();
   var scrollServiceObject = {
       hasVerticalScroll: function() {
-        return document.documentElement.clientWidth < window.innerWidth;
+        return document.documentElement.clientWidth < win.innerWidth;
       },
       //It scrolls of "value" pixels if defined, otherwise it will gives you back the actual pixels scrolled
       scrollTop: function(value){
@@ -78,14 +77,12 @@ angular.module("em").service("scrollService", ["$rootScope", "$timeout", functio
           globalContainers.scrollTop(value);
           return this;
         }else{
-          return window.scrollTop();
+          return win.scrollTop();
         }
       }
   };
   return scrollServiceObject;
 }]);
-
-angular.module("em").service()
 
 var AbstractAngularDirective = Class.extend({
   init: function(scope, element, attrs) {
@@ -99,18 +96,34 @@ var AbstractAngularDirective = Class.extend({
 });
 
 var TopBarDirective = AbstractAngularDirective.extend({
-  init: function(scope, element, attrs, rootScope, scrollService){
+  init: function(scope, element, attrs, rootScope, window, scrollService){
     this._super(scope, element, attrs);
     this.$rootScope = rootScope;
     this.scrollService = scrollService;
-    this.$element.css("position",this.calculatePositioning());
-    console.log(this.$element);
+    this.isInPositionRelative = false;
+    
+    this.calculatePositioning();
+    var currObjInstance = this;
+    angular.element(window).bind("scroll", function(){
+      currObjInstance.calculatePositioning();
+    });
+    angular.element(window).bind("resize", function(){
+      currObjInstance.calculatePositioning();
+    });
   },
   calculatePositioning: function(){
-    if(this.scrollService.scrollTop() < $("header").outerHeight()){
-      this.$element.css("position","relative");
+    if(this.scrollService.scrollTop() < $("header").outerHeight()-5){
+      if(!this.isInPositionRelative){
+        this.$element.css("position","relative");
+        this.isInPositionRelative = !this.isInPositionRelative;
+        this.$element.parent().find('#content').css('margin-top', '0');
+      }
     }else{
-      this.$element.css("position","absolute");
+      if(this.isInPositionRelative){
+        this.$element.css("position","fixed");
+        this.isInPositionRelative = !this.isInPositionRelative;
+        this.$element.parent().find('#content').css('margin-top', this.$element.outerHeight());
+      }
     }
   }
 });

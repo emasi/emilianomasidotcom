@@ -56,7 +56,7 @@ position:relative;
 cursor:default;
 color:#5b6064;
 line-height:1.8em;
-font-family:Roboto;
+font-family:Roboto, sans-serif;
 font-size:15px;
 font-weight:300;
 overflow:hidden;
@@ -71,6 +71,11 @@ outline:thin dotted;
 
 a:active,a:hover {
 outline:0;
+}
+
+h1, h2, h3, h4 {
+font-weight: 100;
+line-height: 1.3em;
 }
 
 h1 {
@@ -220,55 +225,180 @@ display: block;
 .z-max {
 z-index: 9999;
 }
+.black-opaque{
+background-color: #252525;
+background: rgba(0, 0, 0, 0.8);
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+}
+.clearfix:after {
+content: ".";
+display: block;
+clear: both;
+visibility: hidden;
+line-height: 0;
+height: 0;
+}
+ 
+.clearfix {
+display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+display: block;
+}
+ 
+* html .clearfix {
+height: 1%;
+}
+.bt{
+border-top: #fff 1px solid;
+}
+.br{
+border-right: #fff 1px solid;
+}
+.bb{
+border-bottom: #fff 1px solid;
+}
+.bl{
+border-left: #fff 1px solid;
+}
 /*-- END: Common rules --*/
 .opening-header {
-  background: url('../images/opening_header_hd.jpg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale');
-  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale')";
-  min-width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  right: 0;
+background: url('../images/opening_header_hd.jpg');
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale');
+-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opening_header_hd.jpg', sizingMethod='scale')";
+min-width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+bottom: 0;
+right: 0;
 }
-#content {
+.cover {
+margin-right: auto;
+margin-left: auto;
+height: 100%;
+}
+.cover h1, .cover h2, .cover p, .cover a {
+color: white;
+text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+margin: 0px 45px;
+}
+.cover-quote{
+height: 100%;
+padding-top: 80px;
+}
+.cover h2{
+margin-top: 50px;
+}
+#container {
 background: #fff;
 position: absolute;
 right: 0;
 left: 0;
+box-shadow: 0px 0px 100px 30px rgba(0, 0, 0, 0.75);
+-moz-box-shadow: 0px 0px 100px 30px rgba(0, 0, 0, 0.75);
+-webkit-box-shadow: 0px 0px 100px 30px rgba(0, 0, 0, 0.75);
 }
-#top-bar >div {
-height: 100%;
-float: left;
-text-align: center;
+#content {
+margin-left: auto;
+margin-right: auto;
+}
+#content .bt, #content .br, #content .bb, #content .bl{
+  border-color: #5b6064;
 }
 #top-bar {
 -moz-box-sizing: content-box;
 box-sizing: content-box;
 min-width: 320px;
 height: 46px;
-background-color: #252525;
-background: rgba(0, 0, 0, 0.8);
-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
 top: 0;
 width: 100%;
 max-width: 100%;
 border-bottom: 1px solid #e1e4e6;
 }
+#top-bar >div {
+height: 100%;
+float: left;
+text-align: center;
+}
 .avatar{
 width: 60px;
 background-image: url('https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png');
 background-repeat: no-repeat;
-background-position: 6px 5px;
+background-position: 10px 5px;
 }
-
+#top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
+border-color: white;
+}
+.complete-name {
+color: white;
+padding: 0 15px;
+}
+#about-me {
+padding-top: 50px;
+position: relative;
+}
+.about-me-desc {
+padding: 20px 0 20px 20px;
+}
+.about-me-desc p {
+margin: 15px 0;
+}
 /*-- BEGIN: Desktop Mediaquery --*/
+@media only screen and (min-width: 1201px){
+  .cover h1{
+  font-size:4em;
+  line-height: 1.1em;
+  font-weight: 200;
+  padding-left: 35px;
+  }
+  .cover h2{
+  font-size:2.5em;
+  }
+  .cover h2, .cover p{
+  line-height: 1.2em;
+  }
+  .cover p{
+  font-size:1.5em;
+  }
+  #content {
+  width:1200px;
+  }
+  .complete-name {
+  font-size: 2em;
+  line-height: 1.8em;
+  font-weight: 200;
+  padding: 0 15px;
+  }
+  #about-me h2 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  }
+  .about-me-desc {
+  background-image: url('../images/aboutme/aboutme.png');
+  background-position: 120% 47%;
+  background-size: 1000px;
+  background-repeat: no-repeat;
+  }
+  .about-me-desc p:nth-child(3){
+  width: 580px;
+  }
+  .about-me-desc p:nth-child(4){
+  width: 490px;
+  }
+  .about-me-desc p:nth-child(5){
+  width: 390px;
+  }
+  .about-me-desc p:nth-child(6){
+  width: 220px;
+  }
+}
 @media only screen and (min-width: 768px){
   #top-bar {
   height: 59px;
