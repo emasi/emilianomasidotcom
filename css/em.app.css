@@ -343,8 +343,9 @@ color: white;
 padding: 0 15px;
 }
 #about-me {
-padding-top: 50px;
 position: relative;
+margin-top:0;
+padding-top: 50px;
 }
 .about-me-desc {
 padding: 20px 0 20px 20px;
@@ -404,6 +405,10 @@ margin: 15px 0;
 @media only screen and (min-width: 768px){
   #top-bar {
   height: 59px;
+  }
+  section{
+  margin-top: 6.5625em;
+  margin-bottom: 6.5625em;
   }
 /*-- END: Desktop Mediaquery --*/
 }
