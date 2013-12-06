@@ -308,8 +308,7 @@ transition: margin-top 0.8s;
 -webkit-transition: margin-top 0.8s;
 }
 #content {
-margin-left: auto;
-margin-right: auto;
+width:100%
 }
 #content .bt, #content .br, #content .bb, #content .bl{
   border-color: #5b6064;
@@ -338,6 +337,10 @@ background-position: 10px 5px;
 #top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
 border-color: white;
 }
+.inner{
+margin-left: auto;
+margin-right: auto;
+}
 .complete-name {
 color: white;
 padding: 0 15px;
@@ -353,6 +356,21 @@ padding: 20px 0 20px 20px;
 .about-me-desc p {
 margin: 15px 0;
 }
+
+/*-- BEGIN: Parallax --*/
+.parallax-parent, .parallax-container {
+position: fixed;
+width: 100%;
+top: 0;
+left: 0;
+}
+.parallax-container {
+width: 100%;
+visibility: hidden;
+overflow: hidden;
+}
+/*-- END: Parallax --*/
+
 /*-- BEGIN: Desktop Mediaquery --*/
 @media only screen and (min-width: 1201px){
   .cover h1{
@@ -370,7 +388,7 @@ margin: 15px 0;
   .cover p{
   font-size:1.5em;
   }
-  #content {
+  .inner {
   width:1200px;
   }
   .complete-name {
@@ -400,6 +418,9 @@ margin: 15px 0;
   }
   .about-me-desc p:nth-child(6){
   width: 220px;
+  }
+  .section-break{
+  height:500px;
   }
 }
 @media only screen and (min-width: 768px){

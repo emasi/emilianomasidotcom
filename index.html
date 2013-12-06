@@ -28,8 +28,8 @@
         </div>
       </div>
     </header>
-    <div class="z-max hidden" id="container" container>
-      <div id="top-bar" class="z-max black-opaque" top-bar="" role="top-navigation">
+    <div class="z-max hidden" id="container" data-container>
+      <div id="top-bar" class="z-max black-opaque" data-top-bar="" role="top-navigation">
         <div class="avatar"></div>
         <div class="complete-name br">
           Emiliano Masi
@@ -37,15 +37,10 @@
         <nav class="dropdown sectionsList" role="navigation" data-name="emSectionsList">
         </nav>
       </div>
-      <div class="parallax-parent">
-        <div class="parallax-container brain-parallax" parallax>
-        </div>
-        <div class="parallax-container twitter-parallax" parallax>
-        </div>
-      </div>
+      <div class="parallax-parent"></div>
       <div id="content">
         <section id="about-me" data-menu-name="About me">
-          <div class="about-me-desc bl">
+          <div class="inner about-me-desc bl">
             <h2>About me.</h2>
             <p>In the last years we are witnessing to a major revolution in the technological world, a revolution that opens up new business opportunities by
               extending the usage of high-tech products not only to tech lovers and to the experts, but also to all those people who before were completely far
@@ -84,7 +79,7 @@
             </p>
           </div>
         </section>
-        <section class="brain-parallax" data-parallax-id="brain-parallax">
+        <section class="brain-parallax section-break" data-parallax-id="brain-parallax" data-parallax>
           <div class="inner">
             <div class="left-brain">
               <h3>Left</h3> brain
@@ -102,7 +97,9 @@
           </div>
         </section>
         <section class="timeline" data-menu-name="Timeline"></section>
-        <section class="twitter-parallax" data-parallax-id="twitter-parallax"></section>
+        <section class="twitter-parallax section-break" data-parallax-id="twitter-parallax" data-parallax>
+          <div class="inner"></div>
+        </section>
         <section class="contact" data-menu-name="Contact"></section>
       </div>
     </div>
