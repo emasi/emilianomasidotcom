@@ -41,6 +41,8 @@ angular.module("em").controller("MainCtrl", ["$scope", "$timeout", function(scop
   }, 50);
 }]);
 
+//------ Main Directives ------
+
 angular.module("em").directive("container", [function(){
   var winObj = $(window);
   function setMarginTop(){
@@ -66,22 +68,43 @@ angular.module("em").directive("topBar", ["$rootScope", "$window", "scrollServic
   }
 }]);
 
-angular.module("em").directive("parallax", [function(){
+angular.module("em").directive("parallax", ["$rootScope", "scrollService", function(rootScope, scrollService){
   var parallaxDirectiveInstance;
   return{
     link: function(scope, element, attrs){
-      parallaxDirectiveInstance = new ParallaxDirective(scope, element, attrs);
+      parallaxDirectiveInstance = new ParallaxDirective(scope, element, attrs, rootScope, scrollService);
     }
   }
 }]);
 
+//------ Services ------
+
 angular.module("em").service("scrollService", ["$rootScope", function(rootScope) {
-  var win = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight();
+  var win = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight(), callbacksStack = [], isWindowCallbackSetted = false;
+  
+  function windowCallbackManager(){
+    if (callbacksStack.length > 0 && !isWindowCallbackSetted) {
+      win.on("scroll.scrollService", runCallbacksStack);
+      isWindowCallbackSetted = true
+    } else if (callbacksStack.length == 0 && isWindowCallbackSetted) {
+      win.off("scroll.scrollService");
+      isWindowCallbackSetted = false
+    }
+  }
+  
+  function runCallbacksStack(event){
+    //TODO improve performances with window.requestAnimationFrame()
+    var stackLength = callbacksStack.length;
+    console.log(callbacksStack)
+    for (var i = 0; i < stackLength; i++){
+      callbacksStack[i](event);
+    }
+  }
+  
   var scrollServiceObject = {
       hasVerticalScroll: function() {
         return document.documentElement.clientWidth < win.innerWidth;
       },
-      //It scrolls of "value" pixels if defined, otherwise it will gives you back the actual pixels scrolled
       scrollTop: function(value){
         if(typeof value !== "undefined"){
           globalContainers.scrollTop(value);
@@ -89,10 +112,22 @@ angular.module("em").service("scrollService", ["$rootScope", function(rootScope)
         }else{
           return win.scrollTop();
         }
+      },
+      addScrollEventCallback: function(callbackFn){
+        if (!scrollServiceObject.hasScrollEventCallback(callbackFn)) {
+          console.log("entered")
+          callbacksStack.push(callbackFn);
+        }
+        windowCallbackManager();
+      },
+      hasScrollEventCallback: function(callbackFnToCheck){
+        return callbacksStack.indexOf(callbackFnToCheck) > -1;
       }
   };
   return scrollServiceObject;
 }]);
+
+//------ Directives Objects ------
 
 var AbstractAngularDirective = Class.extend({
   init: function(scope, element, attrs) {
@@ -106,10 +141,12 @@ var AbstractAngularDirective = Class.extend({
 });
 
 var ParallaxDirective = AbstractAngularDirective.extend({
-  init: function(scope, element, attrs){
+  init: function(scope, element, attrs, rootScope, scrollService){
     this._super(scope, element, attrs);
+    this.$rootScope = rootScope;
+    this.$scrollService = scrollService;
     
-    var parallaxParentClass = "parallax-parent", parallaxContainerClass = "parallax-container", parallaxImageClass = "parallax-image", parallaxContentClass = "parallax-content";
+    var parallaxParentClass = "parallax-parent", parallaxContainerClass = "parallax-container", parallaxImageClass = "parallax-image", parallaxContentClass = "parallax-content", elementYposition;
     
     var parallaxParentElement = $("."+parallaxParentClass);
     var parallaxContainerElement = $(document.createElement("div"));
@@ -117,16 +154,27 @@ var ParallaxDirective = AbstractAngularDirective.extend({
     var parallaxContentElement = $(document.createElement("div"));
     
     parallaxContainerElement.addClass(parallaxContainerClass);
-    parallaxContainerElement.addClass(this.$element.attr('class').split(' ')[0]);
+    parallaxContainerElement.addClass(this.$element.attr("class").split(" ")[0]);
     parallaxImageElement.addClass(parallaxImageClass);
     parallaxContentElement.addClass(parallaxContentClass);
     
     //TODO check for mobile vs desktop
     parallaxContainerElement.append(parallaxImageElement);
     parallaxContainerElement.append(parallaxContentElement);
-    console.log(this.$element.find(".inner")[0])
     $(this.$element.find(".inner")[0]).appendTo(parallaxContentElement);
     parallaxParentElement.append(parallaxContainerElement);
+    
+    parallaxContainerElement.css("visibility","hidden");
+    
+    this.$scrollService.addScrollEventCallback(this.startEffect());
+  },
+  isInView: function(){
+    return this.$element.offset().top <= this.$scrollService.scrollTop();
+  },
+  startEffect: function(){
+    if(this.isInView()){
+      console.log($(this.$element).attr("class")+": I'm in view!");
+    }
   }
 });
 
@@ -148,23 +196,26 @@ var TopBarDirective = AbstractAngularDirective.extend({
   },
   calculatePositioning: function(){
     var currentHeight = this.$element.outerHeight();
+    var contentId = "content";
     if(this.scrollService.scrollTop() < $("header").outerHeight()){
       if(!this.isInPositionRelative){
         this.$element.css("position","relative");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().children("#content").css("margin-top","0");
+        this.$element.parent().children("#"+contentId).css("margin-top","0");
       }
     }else{
       if(this.isInPositionRelative){
         this.$element.css("position","fixed");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().children("#content").css("margin-top", currentHeight+"px");
+        this.$element.parent().children("#"+contentId).css("margin-top", currentHeight+"px");
       }
     }
+    this.$rootScope.isInPositionRelative = this.isInPositionRelative;
   }
 });
 
-//Miscellaneus Functions
+// ------ Miscellaneus Functions ------
+
 var DeviceInfo;
 DeviceInfo = {initCompleted: !1,isWebkit: !1,isMobilePhone: !1,isIphone: !1,isAndroid: !1,isAndroidPhone: !1,isTierTablet: !1,isTierIphone: !1,isTierRichCss: !1,isTierGenericMobile: !1,engineWebKit: "webkit",deviceIphone: "iphone",deviceIpod: "ipod",deviceIpad: "ipad",deviceMacPpc: "macintosh",deviceAndroid: "android",deviceGoogleTV: "googletv",deviceHtcFlyer: "htc_flyer",deviceNuvifone: "nuvifone",deviceSymbian: "symbian",deviceSymbos: "symbos",deviceS60: "series60",deviceS70: "series70",deviceS80: "series80",deviceS90: "series90",deviceWinPhone7: "windows phone os 7",deviceWinMob: "windows ce",deviceWindows: "windows",deviceIeMob: "iemobile",devicePpc: "ppc",enginePie: "wm5 pie",deviceBB: "blackberry",vndRIM: "vnd.rim",deviceBBStorm: "blackberry95",deviceBBBold: "blackberry97",deviceBBBoldTouch: "blackberry 99",deviceBBTour: "blackberry96",deviceBBCurve: "blackberry89",deviceBBCurveTouch: "blackberry 938",deviceBBTorch: "blackberry 98",deviceBBPlaybook: "playbook",devicePalm: "palm",deviceWebOS: "webos",deviceWebOShp: "hpwos",deviceBada: "bada",engineBlazer: "blazer",engineXiino: "xiino",deviceKindle: "kindle",engineSilk: "silk",vndwap: "vnd.wap",wml: "wml",deviceTablet: "tablet",deviceBrew: "brew",deviceDanger: "danger",deviceHiptop: "hiptop",devicePlaystation: "playstation",deviceNintendoDs: "nitro",deviceNintendo: "nintendo",deviceArchos: "archos",engineOpera: "opera",engineNetfront: "netfront",engineUpBrowser: "up.browser",deviceMidp: "midp",uplink: "up.link",engineTelecaQ: "teleca q",engineObigo: "obigo",devicePda: "pda",mini: "mini",mobile: "mobile",mobi: "mobi",maemo: "maemo",linux: "linux",mylocom2: "sony/com",manuSonyEricsson: "sonyericsson",manuericsson: "ericsson",manuSamsung1: "sec-sgh",manuSony: "sony",manuHtc: "htc",svcDocomo: "docomo",svcKddi: "kddi",svcVodafone: "vodafone",disUpdate: "update",iE: "msie",uagent: "",startDetection: function() {
         this.initCompleted = !1;
