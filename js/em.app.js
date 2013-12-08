@@ -72,7 +72,52 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
   var parallaxDirectiveInstance;
   return{
     link: function(scope, element, attrs){
-      parallaxDirectiveInstance = new ParallaxDirective(scope, element, attrs, rootScope, scrollService);
+      
+      var parallaxParentClass = "parallax-parent",
+      parallaxContainerClass = "parallax-container",
+      parallaxImageClass = "parallax-image",
+      parallaxContentClass = "parallax-content",
+      parallaxParentElement,
+      parallaxContainerElement,
+      parallaxImageElement,
+      parallaxContentElement;
+      
+      function init(){
+        elementYpositionTop= element.offset().top;
+        elementYpositionBottom = elementYpositionTop+element.outerHeight();
+        win = $(window);
+        parallaxParentElement = $("."+parallaxParentClass);
+        parallaxContainerElement = $(document.createElement("div"));
+        parallaxImageElement = $(document.createElement("div"));
+        parallaxContentElement = $(document.createElement("div"));
+        
+        parallaxContainerElement.addClass(parallaxContainerClass);
+        parallaxContainerElement.addClass(element.attr("class").split(" ")[0]);
+        parallaxImageElement.addClass(parallaxImageClass);
+        parallaxContentElement.addClass(parallaxContentClass);
+        
+        //TODO check for mobile vs desktop
+        parallaxContainerElement.append(parallaxImageElement);
+        parallaxContainerElement.append(parallaxContentElement);
+        $(element.find(".inner")[0]).appendTo(parallaxContentElement);
+        parallaxParentElement.append(parallaxContainerElement);
+        
+        parallaxContainerElement.css("visibility","hidden");
+        
+        scrollService.addScrollEventCallback(startEffect);
+      }
+      
+      function startEffect(){
+        if(isInView()){
+          console.log($(element).attr("class")+": I'm in view!");
+        }
+      }
+      
+      function isInView(){
+        return (element.offset().top+element.outerHeight() >= scrollService.scrollTop()) && (element.offset().top <= scrollService.scrollTop()+win.height());
+      }
+      
+      init();
     }
   }
 }]);
@@ -95,7 +140,6 @@ angular.module("em").service("scrollService", ["$rootScope", function(rootScope)
   function runCallbacksStack(event){
     //TODO improve performances with window.requestAnimationFrame()
     var stackLength = callbacksStack.length;
-    console.log(callbacksStack)
     for (var i = 0; i < stackLength; i++){
       callbacksStack[i](event);
     }
@@ -115,7 +159,6 @@ angular.module("em").service("scrollService", ["$rootScope", function(rootScope)
       },
       addScrollEventCallback: function(callbackFn){
         if (!scrollServiceObject.hasScrollEventCallback(callbackFn)) {
-          console.log("entered")
           callbacksStack.push(callbackFn);
         }
         windowCallbackManager();
@@ -137,44 +180,6 @@ var AbstractAngularDirective = Class.extend({
   },
   exposePublicMethod: function(key, method) {
     this.$scope[key] = method.bind(this);
-  }
-});
-
-var ParallaxDirective = AbstractAngularDirective.extend({
-  init: function(scope, element, attrs, rootScope, scrollService){
-    this._super(scope, element, attrs);
-    this.$rootScope = rootScope;
-    this.$scrollService = scrollService;
-    
-    var parallaxParentClass = "parallax-parent", parallaxContainerClass = "parallax-container", parallaxImageClass = "parallax-image", parallaxContentClass = "parallax-content", elementYposition;
-    
-    var parallaxParentElement = $("."+parallaxParentClass);
-    var parallaxContainerElement = $(document.createElement("div"));
-    var parallaxImageElement = $(document.createElement("div"));
-    var parallaxContentElement = $(document.createElement("div"));
-    
-    parallaxContainerElement.addClass(parallaxContainerClass);
-    parallaxContainerElement.addClass(this.$element.attr("class").split(" ")[0]);
-    parallaxImageElement.addClass(parallaxImageClass);
-    parallaxContentElement.addClass(parallaxContentClass);
-    
-    //TODO check for mobile vs desktop
-    parallaxContainerElement.append(parallaxImageElement);
-    parallaxContainerElement.append(parallaxContentElement);
-    $(this.$element.find(".inner")[0]).appendTo(parallaxContentElement);
-    parallaxParentElement.append(parallaxContainerElement);
-    
-    parallaxContainerElement.css("visibility","hidden");
-    
-    this.$scrollService.addScrollEventCallback(this.startEffect());
-  },
-  isInView: function(){
-    return this.$element.offset().top <= this.$scrollService.scrollTop();
-  },
-  startEffect: function(){
-    if(this.isInView()){
-      console.log($(this.$element).attr("class")+": I'm in view!");
-    }
   }
 });
 
