@@ -264,7 +264,7 @@ border-left: #fff 1px solid;
 }
 /*-- END: Common rules --*/
 .opening-header {
-background: url('../images/opening_header_hd.jpg');
+background: url("../images/opening_header_hd.jpg");
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
@@ -330,7 +330,7 @@ text-align: center;
 }
 .avatar{
 width: 60px;
-background-image: url('https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png');
+background-image: url("https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png");
 background-repeat: no-repeat;
 background-position: 10px 5px;
 }
@@ -340,6 +340,7 @@ border-color: white;
 .inner{
 margin-left: auto;
 margin-right: auto;
+height:100%;
 }
 .complete-name {
 color: white;
@@ -356,6 +357,59 @@ padding: 20px 0 20px 20px;
 .about-me-desc p {
 margin: 15px 0;
 }
+#timeline h2 {
+text-align:center;
+}
+#timeline .list-container {
+position: relative;
+padding-top: 10px;
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+}
+#timeline .event{
+margin-bottom:40px;
+}
+#timeline .event-container {
+position: relative;
+}
+#timeline .v-line {
+width: 5px;
+height: 100%;
+background: #5b6064;
+position: absolute;
+left: 44px;
+}
+#timeline .event .oblo{
+width: 92px;
+height: 92px;
+position: absolute;
+}
+#timeline .event .oblo{
+background: url("../images/timeline_sprite.png") 0 0 no-repeat;
+background-repeat: no-repeat;
+}
+#timeline .event.e7 .oblo{
+background-position: 0 0;
+}
+#timeline .event.e6 .oblo{
+background-position: 0 -93px;
+}
+#timeline .event.e5 .oblo{
+background-position: 0 -190px;
+}
+#timeline .event.e4 .oblo{
+background-position: 0 -285px;
+}
+#timeline .event.e3 .oblo{
+background-position: 0 -378px;
+}
+#timeline .event.e2 .oblo{
+background-position: 0 -474px;
+}
+#timeline .event.e1 .oblo{
+background-position: 0 -568px;
+}
 
 /*-- BEGIN: Parallax --*/
 .parallax-parent, .parallax-container {
@@ -368,6 +422,51 @@ left: 0;
 width: 100%;
 visibility: hidden;
 overflow: hidden;
+-webkit-backface-visibility: hidden;
+-webkit-perspective: 1000;
+}
+.parallax-image {
+position: absolute;
+z-index: 1;
+width: 100%;
+height: 320px;
+background-repeat: no-repeat;
+-webkit-backface-visibility: hidden;
+-webkit-perspective: 1000;
+}
+.parallax-container .parallax-content {
+position: absolute;
+z-index: 2;
+width: 100%;
+height: 100%;
+}
+.brain-parallax .parallax-image {
+background-image: url("../images/parallax/brain_parallax_480.jpg");
+background-position: center;
+background-size: 100%;
+}
+.brain-parallax .left-brain {
+float: left;
+background: white;
+background: rgba(255, 255, 255, 0.8);
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+}
+.brain-parallax .right-brain {
+float: right;
+background: red;
+background: rgba(255, 0, 0, 0.7);
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+color: white;
+}
+.brain-parallax .left-brain, .brain-parallax .right-brain{
+height: 100%;
+padding:0 10px;
+text-align:center;
+}
+.twitter-parallax .parallax-image {
+background-image: url("../images/parallax/twitter_parallax_480.jpg");
+background-position: center;
+background-size: 100%;
 }
 /*-- END: Parallax --*/
 
@@ -397,12 +496,12 @@ overflow: hidden;
   font-weight: 200;
   padding: 0 15px;
   }
-  #about-me h2 {
-  font-size: 3em;
+  #about-me h2, #timeline h2 {
+  font-size: 3.5em;
   margin-bottom: 20px;
   }
   .about-me-desc {
-  background-image: url('../images/aboutme/aboutme.png');
+  background-image: url("../images/aboutme/aboutme.png");
   background-position: 120% 47%;
   background-size: 1000px;
   background-repeat: no-repeat;
@@ -421,6 +520,54 @@ overflow: hidden;
   }
   .section-break{
   height:500px;
+  }
+  .parallax-image, .interactive-image {
+  height: 1350px;
+  }
+  .brain-parallax .parallax-image{
+  background-image: url("../images/parallax/brain_parallax_2400.jpg");
+  }
+  .brain-parallax .left-brain, .brain-parallax .right-brain{
+  width:400px;
+  }
+  .brain-parallax h3{
+  font-size: 5em;
+  font-weight: 300;
+  line-height: 1em;
+  margin-top: 55px;
+  }
+  .brain-parallax h4 {
+  font-size: 2em;
+  line-height: 1em;
+  font-weight: 300;
+  }
+  .brain-parallax p{
+  font-size: 0.9em;
+  line-height: 1.8em;
+  margin-top:50px;
+  }
+  .twitter-parallax .parallax-image{
+  background-image: url("../images/parallax/twitter_parallax_2400.jpg");
+  }
+  #timeline .heading-year {
+  margin: 50px 0 50px 74px;
+  }
+  #timeline .heading-year:first-child{
+  margin-top:0;
+  }
+  #timeline .heading-year h3 {
+  font-size: 3.5em;
+  font-weight: 300;
+  line-height: 0.85em;
+  }
+  #timeline .event .desc{
+  line-height: 1.5em;
+  margin-left: 120px;
+  padding-left: 10px;
+  }
+  #timeline .event .desc h4 {
+  font-weight: 500;
+  font-size: 1.4em;
   }
 }
 @media only screen and (min-width: 768px){

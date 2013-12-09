@@ -80,11 +80,11 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
       parallaxParentElement,
       parallaxContainerElement,
       parallaxImageElement,
-      parallaxContentElement;
+      parallaxContentElement,
+      parallaxContainerElementPosition,
+      isInViewState;
       
       function init(){
-        elementYpositionTop= element.offset().top;
-        elementYpositionBottom = elementYpositionTop+element.outerHeight();
         win = $(window);
         parallaxParentElement = $("."+parallaxParentClass);
         parallaxContainerElement = $(document.createElement("div"));
@@ -109,12 +109,27 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
       
       function startEffect(){
         if(isInView()){
-          console.log($(element).attr("class")+": I'm in view!");
+          if(!isInViewState){
+            parallaxContainerElement.css("height",element.outerHeight()+"px");
+            parallaxContainerElement.css("visibility","visible");
+            isInViewState = true;
+            
+          }
+          
+          var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
+          TweenMax.to(parallaxContainerElement, 0,{top: elementOffsetTop-currentScrollTop});
+          TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.5)});
+
+        }else if(!isInView() && isInViewState){
+          parallaxContainerElement.css("visibility","hidden");
+          parallaxContainerElement.css("height","");
+          isInViewState = false;
         }
       }
       
       function isInView(){
-        return (element.offset().top+element.outerHeight() >= scrollService.scrollTop()) && (element.offset().top <= scrollService.scrollTop()+win.height());
+        var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
+        return (elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+win.height());
       }
       
       init();
