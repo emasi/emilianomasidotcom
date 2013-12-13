@@ -78,14 +78,14 @@ function get_twitter_access_token( $consumer_key = 'INSERT_CONSUMER_KEY', $consu
 	return false;
 }
 
-function get_tweets( $handler = 'jabranr', $count = 10 )	{
+function get_tweets($consumer_key, $consumer_secret, $handler = 'INSERT_HANDLER', $count = 10 )	{
 
 	// Start the session if there is not any so we can cache the token
 	if ( !session_start() ) session_start();
 
 	// Cache the access token to session to reuse and avoid continuous oAuth requests
 	if ( !isset($_SESSION['_twitter_token']) )
-		$access_token = get_twitter_access_token() && $_SESSION['_twitter_token'] = $access_token;
+		$access_token = get_twitter_access_token($consumer_key, $consumer_secret ) && $_SESSION['_twitter_token'] = $access_token;
 	else 
 		$access_token = $_SESSION['_twitter_token'];
 

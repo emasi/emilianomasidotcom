@@ -1,21 +1,21 @@
 <?php
 
-include_once ("model/Model.php");
+include_once ("model/TwitterModel.php");
 
 class ApiController {
 	public $model;
-	public function __construct() {
-		$this->model = new Model ();
-	}
+	public function __construct() {}
+	
 	public function invoke() {
-		if (! isset ( $_GET ['book'] )) {
-			// no special book is requested, we'll show a list of all available books
-			$books = $this->model->getBookList ();
-			include 'view/booklist.php';
+		if (isset ( $_GET ['module'] )) {
+			if($_GET ['module'] == "twitter"){
+				$this->model = new TwitterModel();
+				$tweets = $this->model->getTweets('10');
+				echo $tweets;
+			}
 		} else {
-			// show the requested book
-			$book = $this->model->getBook ( $_GET ['book'] );
-			include 'view/viewbook.php';
+			header("HTTP/1.1 400 Bad Request");
+			echo 'OPS!The request cannot be fulfilled due to bad syntax.';
 		}
 	}
 }
