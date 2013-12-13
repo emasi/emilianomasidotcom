@@ -68,8 +68,7 @@ angular.module("em").directive("topBar", ["$rootScope", "$window", "scrollServic
   }
 }]);
 
-angular.module("em").directive("parallax", ["$rootScope", "scrollService", function(rootScope, scrollService){
-  var parallaxDirectiveInstance;
+angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resizeService", function(rootScope, scrollService, resizeService){
   return{
     link: function(scope, element, attrs){
       
@@ -105,6 +104,9 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
         parallaxContainerElement.css("visibility","hidden");
         
         scrollService.addScrollEventCallback(startEffect);
+        resizeService.addResizeEventCallback(startEffect);
+        
+        twitterWidget();
       }
       
       function startEffect(){
@@ -118,7 +120,7 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
           
           var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
           TweenMax.to(parallaxContainerElement, 0,{top: elementOffsetTop-currentScrollTop});
-          TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.5)});
+          TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925)});
 
         }else if(!isInView() && isInViewState){
           parallaxContainerElement.css("visibility","hidden");
@@ -130,6 +132,10 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", funct
       function isInView(){
         var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
         return (elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+win.height());
+      }
+      
+      function twitterWidget(){
+        twitterFetcher.fetch('411259690694090752', 'tweetsContainer', 1, true);
       }
       
       init();
@@ -178,11 +184,65 @@ angular.module("em").service("scrollService", ["$rootScope", function(rootScope)
         }
         windowCallbackManager();
       },
+      removeScrollEventCallback: function(callbackFn) {
+        var stackLength = callbacksStack.length;
+        for(var i = 0; i < stackLength; i++){
+          if(callbacksStack[i] == callbackFn){
+            callbacksStack.splice(i, 1);
+          }
+        }
+        windowCallbackManager();
+      },
       hasScrollEventCallback: function(callbackFnToCheck){
         return callbacksStack.indexOf(callbackFnToCheck) > -1;
       }
   };
   return scrollServiceObject;
+}]);
+
+angular.module("em").service("resizeService", ["$rootScope", function(rootScope) {
+  var win = $(window), callbacksStack = [], isWindowCallbackSetted = false;
+  
+  function windowCallbackManager(){
+    if (callbacksStack.length > 0 && !isWindowCallbackSetted) {
+      win.on("resize.resizeService", runCallbacksStack);
+      isWindowCallbackSetted = true
+    } else if (callbacksStack.length == 0 && isWindowCallbackSetted) {
+      win.off("resize.resizeService");
+      isWindowCallbackSetted = false
+    }
+  }
+  
+  function runCallbacksStack(event){
+    //TODO improve performances with window.requestAnimationFrame()
+    var stackLength = callbacksStack.length;
+    for (var i = 0; i < stackLength; i++){
+      callbacksStack[i](event);
+    }
+  }
+  
+  var resizeServiceObject = {
+      addResizeEventCallback: function(callbackFn){
+        if (!resizeServiceObject.hasResizeEventCallback(callbackFn)) {
+          callbacksStack.push(callbackFn);
+        }
+        windowCallbackManager();
+      },
+      removeResizeEventCallback: function(callbackFn) {
+        var stackLength = callbacksStack.length;
+        for(var i = 0; i < stackLength; i++){
+          if(callbacksStack[i] == callbackFn){
+            callbacksStack.splice(i, 1);
+          }
+        }
+        windowCallbackManager();
+      },
+      hasResizeEventCallback: function(callbackFnToCheck){
+        return callbacksStack.indexOf(callbackFnToCheck) > -1;
+      }
+  };
+  return resizeServiceObject;
+  
 }]);
 
 //------ Directives Objects ------
