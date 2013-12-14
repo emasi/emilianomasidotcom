@@ -1,15 +1,15 @@
 <?php
-require('../services/TwitterService.php');
+// require('/services/TwitterService.php');
+require_once(realpath(__DIR__ . '/../services/TwitterService.php'));
 
-class Twitter {
-	private $consumer_key = 'xxx';
-	private $consumer_secret = 'xxx';
-	private $handler = 'xxx';
+class TwitterModel {
+	private $consumer_key = 'XXX';
+	private $consumer_secret = 'XXX';
 	
 	public function __construct(){}
 	
-	public function getTweets($count){
-		$tweets = get_tweets($consumer_key, $consumer_secret, $this->$handler, $count);
+	public function getTweets($getQuery){
+		$tweets = get_tweets($this->consumer_key, $this->consumer_secret, $getQuery);
 		return $tweets;
 	}
 }

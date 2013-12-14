@@ -69,28 +69,38 @@ function get_twitter_access_token( $consumer_key = 'INSERT_CONSUMER_KEY', $consu
 	// Get and decode the JSON return in result of CURL
 	if ($oauthResponse)
 		$oauthResponse = json_decode($oauthResponse);
+	
+	print_r ($oauthResponse->access_token);
 
 	// If a bearer type token found, return the token
 	if ( $oauthResponse && property_exists($oauthResponse, 'token_type') && $oauthResponse->token_type === 'bearer' )
 		return $oauthResponse->access_token;
-
+	
 	// Otherwise return false
 	return false;
 }
 
-function get_tweets($consumer_key, $consumer_secret, $handler = 'INSERT_HANDLER', $count = 10 )	{
+function get_tweets($consumer_key, $consumer_secret, $getQuery )	{
 
 	// Start the session if there is not any so we can cache the token
 	if ( !session_start() ) session_start();
 
 	// Cache the access token to session to reuse and avoid continuous oAuth requests
-	if ( !isset($_SESSION['_twitter_token']) )
-		$access_token = get_twitter_access_token($consumer_key, $consumer_secret ) && $_SESSION['_twitter_token'] = $access_token;
-	else 
+	if ( !isset($_SESSION['_twitter_token']) ){
+		$access_token = get_twitter_access_token($consumer_key, $consumer_secret );
+		$_SESSION['_twitter_token'] = $access_token;
+	}else 
 		$access_token = $_SESSION['_twitter_token'];
 
 	// Setup endpoint to make requests
-	$endpoint = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=' . $handler . '&count=' . $count;
+	$endpoint = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+	
+	//Cycling over the get parameters to customize the query for the service
+	if(count($getQuery)>2){
+		$params = array_slice($getQuery, 2);
+		$stringParams = implode('&', array_map(function ($v, $k) { return $k . '=' . $v; }, $params, array_keys($params)));
+		$endpoint .= "?{$stringParams}";
+	}
 
 	// Prepare CURL authorization header
 	$headers = array('Authorization: Bearer ' . $access_token);
@@ -116,5 +126,5 @@ function get_tweets($consumer_key, $consumer_secret, $handler = 'INSERT_HANDLER'
 	curl_close($curl);
 
 	// Decode JSON and return the data
-	return json_decode($json);
+	return $json;
 }
