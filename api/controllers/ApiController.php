@@ -15,11 +15,17 @@ class ApiController {
 					$this->model = new TwitterModel();
 					$tweets = $this->model->getTweets($_GET);
 					echo $tweets;
+				}else{
+					$error = array(status => '404', message => 'Method not found.');
+					echo json_encode($error);
 				}
 				
+			}else{
+				$error = array(status => '404', message => 'Module not found.');
+				echo json_encode($error);
 			}
 		} else {
-			$error = array(status => '404', message => 'OPS!The request cannot be fulfilled due to bad syntax.');
+			$error = array(status => '400', message => 'The request cannot be fulfilled due to bad syntax.');
 			echo json_encode($error);
 		}
 	}
