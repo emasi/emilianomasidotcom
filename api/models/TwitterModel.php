@@ -3,8 +3,8 @@
 require_once(realpath(__DIR__ . '/../services/TwitterService.php'));
 
 class TwitterModel {
-	private $consumer_key = 'kVzKtb99EL4OFotoJoWpw';
-	private $consumer_secret = 'bCO7NOT9rXSTeS2EHniFrYJyju4QqtpBD6YjOdkOWI';
+	private $consumer_key = 'XXX';
+	private $consumer_secret = 'XXX';
 	
 	public function __construct(){}
 	
