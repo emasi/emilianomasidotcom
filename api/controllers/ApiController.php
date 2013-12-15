@@ -8,6 +8,7 @@ class ApiController {
 	public function __construct() {}
 	
 	public function invoke() {
+		header('Content-type: application/json');
 		if (isset ( $_GET [$this->constants[module]] )) {
 			if($_GET [$this->constants[module]] == "twitter"){
 				

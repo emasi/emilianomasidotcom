@@ -106,7 +106,6 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
         scrollService.addScrollEventCallback(startEffect);
         resizeService.addResizeEventCallback(startEffect);
         
-        twitterWidget();
       }
       
       function startEffect(){
@@ -134,11 +133,15 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
         return (elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+win.height());
       }
       
-      function twitterWidget(){
-        twitterFetcher.fetch('411259690694090752', 'tweetsContainer', 1, true);
-      }
-      
       init();
+    }
+  }
+}]);
+
+angular.module("em").directive("twitterWidget", [function(){
+  return{
+    link: function(scope, element, attrs){
+      twitterWidgetDirectiveInstance = new TwitterWidgetDirective(scope, element, attrs);
     }
   }
 }]);
@@ -267,6 +270,7 @@ var TopBarDirective = AbstractAngularDirective.extend({
     
     this.calculatePositioning();
     var currObjInstance = this;
+    //TODO Attach the following function to the relative resize and scroll service.
     angular.element(window).bind("scroll", function(){
       currObjInstance.calculatePositioning();
     });
@@ -291,6 +295,95 @@ var TopBarDirective = AbstractAngularDirective.extend({
       }
     }
     this.$rootScope.isInPositionRelative = this.isInPositionRelative;
+  }
+});
+
+var TwitterWidgetDirective = AbstractAngularDirective.extend({
+  init: function(scope, element, attrs){
+    this._super(scope, element, attrs);
+    
+    this.tweets = [];
+    this.currentTweetIndex = 0;
+    this.restServiceURL = "http://api.emilianomasi.com/twitter/tweets";
+    this.errorText = "An error has occured during the request."
+    
+    this.tweetTextElement = $(element.find('.tweet .text')[0]);
+    this.tweetInfoElement = $(element.find('.tweet .info')[0]);
+    this.navigationElement = $(element.find('.navigation')[0]);
+    this.previousButton = $(this.navigationElement.find('.previous')[0]);
+    this.nextButton = $(this.navigationElement.find('.next')[0]);
+    
+    this.fetchTweets(null, this.setupDOM.bind(this));
+  },
+  fetchTweets: function(count, successCallback){
+    this.count = count?count:50;
+    this.restParams = "count="+this.count+"&screen_name=EmilianoMasi";
+    var currObjInstance = this;
+    $.ajax({
+      dataType: "jsonp",
+      async: true,
+      url: this.restServiceURL+"?"+this.restParams,
+      crossDomain: true,
+      success: function(data){
+        var JSONresponse = data;
+        $.each(JSONresponse, function(index, value){
+          currObjInstance.tweets.push(value);
+        });
+        successCallback();
+      },
+      error: function(){
+        currObjInstance.tweets.push({text:currObjInstance.errorText});
+      }
+    })
+  },
+  setupDOM: function(){
+    this.setupDOMElements();
+    this.setupDOMEvents();
+  },
+  setupDOMElements: function(){
+    
+    this.tweetTextElement.html(this.replaceLinksWithAnchors(this.tweets[this.currentTweetIndex].text));
+    this.tweetInfoElement.html(this.convertTwitterTimestamp(this.tweets[this.currentTweetIndex].created_at));
+    
+    switch(this.currentTweetIndex){
+      case 0:
+        this.previousButton.removeClass('active');
+        this.nextButton.addClass('active');
+        break;
+      case this.tweets.length-1:
+        this.nextButton.removeClass('active');
+        this.previousButton.addClass('active');
+        break;
+      default:
+        this.previousButton.addClass('active');
+        this.nextButton.addClass('active');
+    }
+  },
+  setupDOMEvents: function(){
+    var currObjInstance = this;
+    this.navigationElement.on('click', '.previous, .next', function(event){
+      event.preventDefault();
+      var target = event.target;
+      if($(target).hasClass('previous')){
+        currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex == 0?0:currObjInstance.currentTweetIndex-1;
+      }else if($(target).hasClass('next')){
+        currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex == currObjInstance.tweets.length-1?currObjInstance.tweets.length-1:currObjInstance.currentTweetIndex+1;
+      }
+      currObjInstance.setupDOMElements();
+    });
+  },
+  replaceLinksWithAnchors: function(plainText){
+    var regex = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)/ig;
+    var replaced_text = plainText.replace(regex, "<a href='$1' target='_blank'>$1</a>");
+    return replaced_text;
+  },
+  convertTwitterTimestamp: function(twitterTimestamp){
+    var date = new Date(Date.parse(twitterTimestamp)).toLocaleString().split(" ");
+    var hour = date[1];
+    var ampm = hour<12 ? ' AM' : ' PM';
+    if (hour>12) hour-= 12;
+    if (hour==0) hour = 12;
+    return date[0]+' &#9679; ' + hour.substr(0, 5) + ampm;
   }
 });
 
