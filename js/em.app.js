@@ -34,12 +34,13 @@
 angular.module("em", ["ngRoute"]);
 
 angular.module("em").controller("MainCtrl", ["$scope", "$timeout", function(scope, timeout){
-  var emailClass = "email-address" emailAddress = "info@emilianomasi.com";
+  var emailClass = "email-address", emailAddress = "info@emilianomasi.com";
   scope.openingHeaderImagePath;
   timeout(function () {
       scope.openingHeaderImagePath = "images/opening_header_hd.jpg";
   }, 50);
-  $("."+emailClass+" a").attr("href", "")
+  $("."+emailClass+" a").attr("href", "mailto:"+emailAddress);
+  $("."+emailClass+" a").text(emailAddress);
 }]);
 
 //------ Main Directives ------

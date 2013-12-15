@@ -419,6 +419,44 @@ color:white;
 #contact .inner p{
 text-align:center;
 }
+#contact .email-address {
+text-align: center;
+margin: 20px 0;
+}
+#contact .email-address a {
+color: white;
+text-decoration: none;
+font-size: 1.4em;
+}
+#contact .social-links-container {
+display: block;
+width: 350px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+}
+#contact .linkedin-link, #contact .twitter-link, #contact .github-link {
+background-image: url("../images/social_icons_sprite.png");
+background-repeat: no-repeat;
+text-indent: -9999px;
+}
+#contact .linkedin-link, #contact .twitter-link {
+width: 143px;
+height: 145px;
+display: inline-block;
+}
+#contact .twitter-link {
+background-position: -142px 0px;
+}
+#contact .github-link {
+display: block;
+background-position: -53px -175px;
+width: 175px;
+height: 175px;
+margin-left: auto;
+margin-right: auto;
+margin-top: 25px;
+}
 
 /*-- BEGIN: Parallax --*/
 .parallax-parent, .parallax-container {
