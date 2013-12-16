@@ -334,7 +334,7 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
         successCallback();
       },
       error: function(){
-        currObjInstance.tweets.push({text:currObjInstance.errorText});
+        currObjInstance.tweets.push({text:currObjInstance.errorText, created_at:"Tue Jun 03 00:00:00 +0000 1986 "});
       }
     })
   },
@@ -344,8 +344,12 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
   },
   setupDOMElements: function(){
     
+    this.tweetTextElement.hide();
+    this.tweetInfoElement.hide();
     this.tweetTextElement.html(this.replaceLinksWithAnchors(this.tweets[this.currentTweetIndex].text));
     this.tweetInfoElement.html(this.convertTwitterTimestamp(this.tweets[this.currentTweetIndex].created_at));
+    this.tweetTextElement.fadeIn();
+    this.tweetInfoElement.fadeIn();
     
     switch(this.currentTweetIndex){
       case 0:
@@ -365,13 +369,20 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
     var currObjInstance = this;
     this.navigationElement.on('click', '.previous, .next', function(event){
       event.preventDefault();
-      var target = event.target;
+      var target = event.target, nextStep = false;
       if($(target).hasClass('previous')){
-        currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex == 0?0:currObjInstance.currentTweetIndex-1;
+        if(currObjInstance.currentTweetIndex != 0){
+          currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex-1;
+          nextStep = true;
+        }
       }else if($(target).hasClass('next')){
-        currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex == currObjInstance.tweets.length-1?currObjInstance.tweets.length-1:currObjInstance.currentTweetIndex+1;
+        if(currObjInstance.currentTweetIndex != currObjInstance.tweets.length-1){
+          currObjInstance.currentTweetIndex = currObjInstance.currentTweetIndex+1;
+          nextStep = true;
+        }
       }
-      currObjInstance.setupDOMElements();
+      if(nextStep)
+        currObjInstance.setupDOMElements();
     });
   },
   replaceLinksWithAnchors: function(plainText){
