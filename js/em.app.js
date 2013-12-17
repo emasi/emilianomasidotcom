@@ -70,7 +70,7 @@ angular.module("em").directive("topBar", ["$rootScope", "$window", "scrollServic
   }
 }]);
 
-angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resizeService", function(rootScope, scrollService, resizeService){
+angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resizeService", "uiService", function(rootScope, scrollService, resizeService, uiService){
   return{
     link: function(scope, element, attrs){
       
@@ -120,8 +120,13 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
           }
           
           var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
-          TweenMax.to(parallaxContainerElement, 0,{top: elementOffsetTop-currentScrollTop});
-          TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925)});
+          uiService.setBatchCSS(parallaxContainerElement, {left:0, top: (elementOffsetTop-currentScrollTop)});
+          uiService.setBatchCSS(parallaxImageElement, {left:0, top: (-((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925))});
+          
+          //TweenMax.to(parallaxContainerElement, 0,{top: elementOffsetTop-currentScrollTop});
+//          TweenMax.to(parallaxContainerElement, 0,{css:{'-webkit-transform': 'translate3d(0px, '+(elementOffsetTop-currentScrollTop)+'px, 0px)'}});
+//          TweenMax.to(parallaxImageElement, 0,{css:{'-webkit-transform': 'translate3d(0px, '+(-((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925))+'px, 0px)'}});
+          //TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925)});
 
         }else if(!isInView() && isInViewState){
           parallaxContainerElement.css("visibility","hidden");
@@ -248,6 +253,61 @@ angular.module("em").service("resizeService", ["$rootScope", function(rootScope)
   };
   return resizeServiceObject;
   
+}]);
+
+angular.module("em").service("uiService", [function() {
+  var supportedTransformationCSS = Modernizr ? {csstransforms3d: Modernizr.csstransforms3d,csstransforms: Modernizr.csstransforms} : {csstransforms3d: false,csstransforms: false},
+      browserPrefix = getBrowserPrefix();
+  
+  function applyTweenMaxTo(element, cssObject){
+    TweenMax.to(element, 0,cssObject);
+  }
+  
+  function getBrowserPrefix(){
+    return Modernizr.prefixed('transform')
+            .replace(/([A-Z])/g, function(str,m1){
+              return '-' + m1.toLowerCase();
+             }).replace(/^ms-/,'-ms-');
+  }
+  
+  function buildCssObject(properties){
+    var cssObject = {css:{}}
+    $.each(properties, function(index, property){
+      cssObject.css[property.name] = property.value;
+    });
+    return cssObject;
+  }
+  
+  var uiServiceObject = {
+      setBatchCSS: function(element, properties){
+        var firstDimension = properties.x || properties.left || 0,
+            secondDimension = properties.y || properties.top || 0;
+        var propertiesArray=[];
+        
+        if(supportedTransformationCSS.csstransforms3d){
+          propertiesArray.push({name:browserPrefix, value:"translate3d(" + firstDimension + "px, " + secondDimension + "px, 0)"});
+        }else if(supportedTransformationCSS.csstransforms){
+          propertiesArray.push({name:browserPrefix, value:"translateX(" + firstDimension + "px) translateY(" + secondDimension + "px)"});
+        }else{
+          if(firstDimension != null){
+            propertiesArray.push({name:"left", value:firstDimension+"px"});
+          }
+          if(secondDimension != null){
+            propertiesArray.push({name:"top", value:firstDimension+"px"});
+          }
+        }
+        if (properties.width)
+          propertiesArray.push({name:"width: ", value:properties.width + "px"});
+        if (properties.height)
+          propertiesArray.push({name:"height: ", value:properties.height + "px"});
+        if (properties.display)
+          propertiesArray.push({name:"display: ", value:properties.display});
+        if (properties.visibility)
+          propertiesArray.push({name:"visibility", value:properties.visibility});
+        applyTweenMaxTo(element, buildCssObject(propertiesArray));
+      }
+  };
+  return uiServiceObject;
 }]);
 
 //------ Directives Objects ------
