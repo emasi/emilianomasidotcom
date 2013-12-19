@@ -33,12 +33,37 @@
 
 angular.module("em", ["ngRoute"]);
 
-angular.module("em").controller("MainCtrl", ["$scope", "$timeout", function(scope, timeout){
+angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollService", function(scope, timeout, scrollService){
   var emailClass = "email-address", emailAddress = "info@emilianomasi.com";
   scope.openingHeaderImagePath;
+  scope.sections = []
+  scope.currentSection = "";
+  scope.SECTION_FOCUS_EVENT = "SectionFocus"
+  
   timeout(function () {
       scope.openingHeaderImagePath = "images/opening_header_hd.jpg";
   }, 50);
+  
+  scope.fetchSections = function(){
+    $('#content').find("section[data-menu-name]").each(function(){
+      scope.sections.push({name: $(this).attr("data-menu-name"), DOMElement:$(this)});
+    });
+    scope.currentSection = scope.sections[0].name;
+  }
+  
+  scope.updateCurrentSection = function(sectionName){
+    scope.currentSection = sectionName;
+    scope.$apply()
+  }
+  
+  scope.fetchSections();
+  scope.$on(scope.SECTION_FOCUS_EVENT, function(event, sectionName){
+    scope.updateCurrentSection(sectionName);
+  });
+  
+  
+  
+  
   $("."+emailClass+" a").attr("href", "mailto:"+emailAddress);
   $("."+emailClass+" a").text(emailAddress);
 }]);
@@ -113,8 +138,7 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
       function startEffect(){
         if(isInView()){
           if(!isInViewState){
-            parallaxContainerElement.css("height",element.outerHeight()+"px");
-            parallaxContainerElement.css("visibility","visible");
+            uiService.setBatchCSS(parallaxContainerElement, {height: element.outerHeight(), visibility:"visible"});
             isInViewState = true;
             
           }
@@ -122,21 +146,16 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
           var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
           uiService.setBatchCSS(parallaxContainerElement, {left:0, top: (elementOffsetTop-currentScrollTop)});
           uiService.setBatchCSS(parallaxImageElement, {left:0, top: (-((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925))});
-          
-          //TweenMax.to(parallaxContainerElement, 0,{top: elementOffsetTop-currentScrollTop});
-//          TweenMax.to(parallaxContainerElement, 0,{css:{'-webkit-transform': 'translate3d(0px, '+(elementOffsetTop-currentScrollTop)+'px, 0px)'}});
-//          TweenMax.to(parallaxImageElement, 0,{css:{'-webkit-transform': 'translate3d(0px, '+(-((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925))+'px, 0px)'}});
-          //TweenMax.to(parallaxImageElement, 0,{top: -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925)});
 
         }else if(!isInView() && isInViewState){
-          parallaxContainerElement.css("visibility","hidden");
-          parallaxContainerElement.css("height","");
+          uiService.setBatchCSS(parallaxContainerElement, {height: 0, visibility:"hidden"});
           isInViewState = false;
         }
       }
       
       function isInView(){
-        var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
+        var elementOffsetTop = element.offset().top,
+        currentScrollTop = scrollService.scrollTop();
         return (elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+win.height());
       }
       
@@ -149,6 +168,27 @@ angular.module("em").directive("twitterWidget", [function(){
   return{
     link: function(scope, element, attrs){
       twitterWidgetDirectiveInstance = new TwitterWidgetDirective(scope, element, attrs);
+    }
+  }
+}]);
+
+angular.module("em").directive("sectionFocus", ["$rootScope", "scrollService", "resizeService", function(rootScope, scrollService, resizeService){
+  var sectionFocusInstance;
+  return {
+    link: function(scope, element, attrs) {
+      var currentSectionName = element.attr("data-menu-name");
+      
+      function triggerSectionFocus(){
+        var elementOffsetTop = element.offset().top,
+        currentScrollTop = scrollService.scrollTop();
+        if((elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+(win.height()*.5))){
+          rootScope.$broadcast(scope.SECTION_FOCUS_EVENT, currentSectionName);
+        }
+      }
+      
+      scrollService.addScrollEventCallback(triggerSectionFocus);
+      resizeService.addResizeEventCallback(triggerSectionFocus);
+
     }
   }
 }]);
@@ -297,11 +337,11 @@ angular.module("em").service("uiService", [function() {
           }
         }
         if (properties.width)
-          propertiesArray.push({name:"width: ", value:properties.width + "px"});
+          propertiesArray.push({name:"width", value:properties.width + "px"});
         if (properties.height)
-          propertiesArray.push({name:"height: ", value:properties.height + "px"});
+          propertiesArray.push({name:"height", value:properties.height + "px"});
         if (properties.display)
-          propertiesArray.push({name:"display: ", value:properties.display});
+          propertiesArray.push({name:"display", value:properties.display});
         if (properties.visibility)
           propertiesArray.push({name:"visibility", value:properties.visibility});
         applyTweenMaxTo(element, buildCssObject(propertiesArray));
@@ -329,7 +369,6 @@ var TopBarDirective = AbstractAngularDirective.extend({
     this.$rootScope = rootScope;
     this.scrollService = scrollService;
     this.isInPositionRelative = false;
-    
     this.calculatePositioning();
     var currObjInstance = this;
     //TODO Attach the following function to the relative resize and scroll service.

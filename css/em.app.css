@@ -218,12 +218,19 @@ overflow:visible;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
 display: block;
+overflow: hidden;
 }
 /*-- END: General element rules --*/
 
 /*-- BEGIN: Common rules --*/
 .z-max {
 z-index: 9999;
+}
+.invisible {
+visibility: hidden;
+}
+.block-anchor{
+display: block;
 }
 .black-opaque{
 background-color: #252525;
@@ -336,6 +343,31 @@ background-position: 10px 5px;
 #top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
 border-color: white;
 }
+.dropdown.sectionsList {
+width: 200px;
+}
+.dropdown.sectionsList >a {
+font-size: 1.4rem;
+}
+.dropdown.sectionsList a {
+font-weight: 100;
+line-height: 59px;
+padding: 0 15px;
+color: white;
+text-decoration: none;
+text-align: center;
+}
+.arrow-down {
+background-image: url("../images/icons_sprite.png");
+background-position: -11px -429px;
+background-repeat: no-repeat;
+background-size: 144px auto;
+display: inline-block;
+margin-left: 7px;
+width: 10px;
+height: 14px;
+vertical-align: middle;
+}
 .inner{
 margin-left: auto;
 margin-right: auto;
@@ -355,6 +387,7 @@ padding: 20px 0 20px 20px;
 }
 .about-me-desc p {
 margin: 15px 0;
+padding-right: 20px;
 }
 #timeline h2, #contact h2 {
 text-align:center;
@@ -517,6 +550,7 @@ background-size: 100%;
 }
 .twitter-parallax.section-break{
 margin-bottom:0;
+background: #2d2d2d;
 }
 .twitter-parallax .parallax-content{
 background: black;
