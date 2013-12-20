@@ -34,11 +34,16 @@
 angular.module("em", ["ngRoute"]);
 
 angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollService", function(scope, timeout, scrollService){
-  var emailClass = "email-address", emailAddress = "info@emilianomasi.com";
+  scope.appVersion = "0.9";
+  scope.emailAddress = "info@emilianomasi.com";
+  
   scope.openingHeaderImagePath;
-  scope.sections = []
+  scope.HOME_SELECTED_EVENT = "HomeSelected";
+  scope.sections = [];
   scope.currentSection = "";
-  scope.SECTION_FOCUS_EVENT = "SectionFocus"
+  scope.SECTION_FOCUS_EVENT = "SectionFocus";
+  scope.SECTIONS_DROPDOWN_TOGGLED_EVENT = "SectionsDropdownToggled";
+  scope.SECTION_SELECTED_EVENT = "SectionSelected";
   
   timeout(function () {
       scope.openingHeaderImagePath = "images/opening_header_hd.jpg";
@@ -61,11 +66,17 @@ angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollServic
     scope.updateCurrentSection(sectionName);
   });
   
+  scope.toggleElement = function(eventName){
+    scope.$broadcast(eventName);
+  };
   
+  scope.onDropDownClicked = function(eventName, section){
+    scope.$broadcast(eventName, section);
+  }
   
-  
-  $("."+emailClass+" a").attr("href", "mailto:"+emailAddress);
-  $("."+emailClass+" a").text(emailAddress);
+  scope.$on(scope.HOME_SELECTED_EVENT, function(event){
+    $('html, body').animate({scrollTop: 0},1000);
+  })
 }]);
 
 //------ Main Directives ------
@@ -90,7 +101,7 @@ angular.module("em").directive("topBar", ["$rootScope", "$window", "scrollServic
   var topBarDirectiveInstance;
   return {
     link: function(scope, element, attrs) {
-      topBarDirectiveInstance = new TopBarDirective(scope, element, attrs, rootScope, window, scrollService);
+      topBarDirectiveInstance = new TopBarDirective(scope, element, attrs, window, scrollService);
     }
   }
 }]);
@@ -364,11 +375,12 @@ var AbstractAngularDirective = Class.extend({
 });
 
 var TopBarDirective = AbstractAngularDirective.extend({
-  init: function(scope, element, attrs, rootScope, window, scrollService){
+  init: function(scope, element, attrs, window, scrollService){
     this._super(scope, element, attrs);
-    this.$rootScope = rootScope;
     this.scrollService = scrollService;
     this.isInPositionRelative = false;
+    this.dropdownSectionsListIsActive = false;
+    this.dropdownSectionsList = $(element.find('.dropdown-sections-container .dropdown-list')[0]);
     this.calculatePositioning();
     var currObjInstance = this;
     //TODO Attach the following function to the relative resize and scroll service.
@@ -378,6 +390,23 @@ var TopBarDirective = AbstractAngularDirective.extend({
     angular.element(window).bind("resize", function(){
       currObjInstance.calculatePositioning();
     });
+    this.$scope.$on(this.$scope.SECTIONS_DROPDOWN_TOGGLED_EVENT, function(event){
+      currObjInstance.dropdownMenuToggle();
+    });
+    this.$scope.$on(this.$scope.SECTION_SELECTED_EVENT, function(event,section){
+      var scrollValue = currObjInstance.isInPositionRelative?section.DOMElement.offset().top:(section.DOMElement.offset().top-currObjInstance.$element.outerHeight());
+      $('html, body').animate({scrollTop: scrollValue},1000);
+      currObjInstance.dropdownMenuToggle();
+      return false;
+    });
+    this.activateDeactivateDropdownMenu(false);
+    
+    $(window).on("click", function(event){
+      var target = event.target;
+      if(currObjInstance.dropdownSectionsListIsActive && $(target).parents(".dropdown").length==0)
+        currObjInstance.activateDeactivateDropdownMenu(false);
+    });
+    
   },
   calculatePositioning: function(){
     var currentHeight = this.$element.outerHeight();
@@ -395,8 +424,25 @@ var TopBarDirective = AbstractAngularDirective.extend({
         this.$element.parent().children("#"+contentId).css("margin-top", currentHeight+"px");
       }
     }
-    this.$rootScope.isInPositionRelative = this.isInPositionRelative;
-  }
+  },
+  dropdownMenuToggle: function(){
+    if(this.dropdownSectionsListIsActive){
+      this.dropdownSectionsList.removeClass("active");
+      this.activateDeactivateDropdownMenu(false);
+    }else{
+      this.dropdownSectionsList.addClass("active");
+      this.activateDeactivateDropdownMenu(true);
+    }
+  },
+  activateDeactivateDropdownMenu: function(signal){
+    var currObjInstance = this;
+    this.dropdownSectionsListIsActive = signal;
+    if(signal){
+      TweenMax.to(currObjInstance.dropdownSectionsList, .3, {top:0, alpha:1, ease:Expo.easeOut});
+    }else{
+      TweenMax.to(this.dropdownSectionsList, .3, {top:-(currObjInstance.dropdownSectionsList.outerHeight()+currObjInstance.$element.outerHeight()), alpha:0, ease:Expo.easeOut});
+    }
+  },
 });
 
 var TwitterWidgetDirective = AbstractAngularDirective.extend({

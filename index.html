@@ -25,24 +25,31 @@
           <p>
             creative engineer
           </p>
+          <div class="cover-scroll-button">
+            <a class="block-anchor" href="" ng-click="onDropDownClicked('SectionSelected',sections[0])">
+              About me
+            </a>
+          </div>
         </div>
       </div>
     </header>
     <div class="z-max hidden" id="container" data-container>
       <div id="top-bar" class="z-max black-opaque" data-top-bar="" role="top-navigation">
-        <div class="avatar"></div>
-        <div class="complete-name br">
+        <div class="avatar" ng-click="onDropDownClicked('HomeSelected')"></div>
+        <div class="complete-name" ng-click="onDropDownClicked('HomeSelected')">
           Emiliano Masi
         </div>
-        <nav class="dropdown sectionsList" role="navigation" data-name="emSectionsList">
-          <a class="block-anchor br" href="" ng-click="">
+        <nav class="dropdown clearfix" role="navigation">
+          <a class="block-anchor br bl" href="" ng-click="toggleElement('SectionsDropdownToggled')">
             <span ng-bind="currentSection">&nbsp;</span><span class="arrow-down">&nbsp;</span>
           </a>
-          <ul class="dropdown-list list-reset  black-opaque" id="sections-list" ng-class="">
-            <li data-repeat-complete="" ng-repeat="section in sections">
-              <a class="block-anchor" ng-click="">{{section.name}}</a>
-            </li>
-          </ul>
+          <div class="dropdown-sections-container">
+            <ul class="dropdown-list  black-opaque br bl" id="sections-list" ng-class="">
+              <li data-repeat-complete="" ng-repeat="section in sections">
+                <a class="block-anchor" href="" ng-click="onDropDownClicked('SectionSelected',section)">{{section.name}}</a>
+              </li>
+            </ul>
+          </div>
         </nav>
       </div>
       <div class="parallax-parent"></div>
@@ -239,12 +246,15 @@
             <h2>Contact.</h2>
             <p>Want to say hello? Want to know more about me?<br>Drop me an email or follow me.</p>
             <div class="email-address">
-              <a href=""></a>
+              <a href="mailto:{{emailAddress}}">{{emailAddress}}</a>
             </div>
             <div class="social-links-container">
               <a href="http://de.linkedin.com/pub/emiliano-masi/58/339/b88/" target="_blank" title="Go to LinkedIn profile" class="linkedin-link">LinkedIn Emiliano Masi</a>
               <a href="http://twitter.com/EmilianoMasi" target="_blank" title="Go to Twitter profile" class="twitter-link">Twitter Emiliano Masi</a>
               <a href="http://github.com/emasi" target="_blank" title="Go to GitHub profile" class="github-link">GitHub Emiliano Masi</a>
+            </div>
+            <div class="appVersion">
+              current application version<br>v.{{appVersion}}
             </div>
           </div>
         </section>

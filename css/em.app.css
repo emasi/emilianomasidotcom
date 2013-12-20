@@ -218,7 +218,6 @@ overflow:visible;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
 display: block;
-overflow: hidden;
 }
 /*-- END: General element rules --*/
 
@@ -303,6 +302,25 @@ padding-top: 80px;
 .cover h2{
 margin-top: 50px;
 }
+.cover-scroll-button {
+position: absolute;
+bottom: 30px;
+left: 50%;
+margin-left: -55px;
+}
+.cover-scroll-button a {
+background-image: url("../images/icons_sprite.png");
+background-repeat: no-repeat;
+text-indent: -9999px;
+background-position: -88px -590px;
+width: 110px;
+height: 75px;
+margin-left: auto;
+margin-right: auto;
+}
+.cover-scroll-button a:hover{
+background-position-x: 7px ;
+}
 #container {
 background: #fff;
 position: absolute;
@@ -339,23 +357,33 @@ width: 60px;
 background-image: url("https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png");
 background-repeat: no-repeat;
 background-position: 10px 5px;
+cursor:pointer;
 }
 #top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
 border-color: white;
 }
-.dropdown.sectionsList {
+.dropdown {
 width: 200px;
 }
-.dropdown.sectionsList >a {
+.dropdown >a {
 font-size: 1.4rem;
 }
-.dropdown.sectionsList a {
+.dropdown a {
 font-weight: 100;
 line-height: 59px;
 padding: 0 15px;
 color: white;
 text-decoration: none;
 text-align: center;
+}
+.dropdown-sections-container{
+position: relative;
+}
+.dropdown-list{
+position:absolute;
+z-index: -1;
+left: 0;
+right: 0;
 }
 .arrow-down {
 background-image: url("../images/icons_sprite.png");
@@ -489,6 +517,13 @@ height: 175px;
 margin-left: auto;
 margin-right: auto;
 margin-top: 25px;
+}
+.appVersion.ng-binding {
+text-align: center;
+font-size: 0.7em;
+line-height: 1.5em;
+margin-top: 40px;
+color: #CCCCCC;
 }
 
 /*-- BEGIN: Parallax --*/
@@ -652,6 +687,7 @@ background-position-y: -763px;
   line-height: 1.8em;
   font-weight: 200;
   padding: 0 15px;
+  cursor:pointer;
   }
   #about-me h2, #timeline h2, #contact h2 {
   font-size: 3.5em;
