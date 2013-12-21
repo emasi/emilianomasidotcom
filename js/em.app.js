@@ -485,7 +485,6 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
       dataType: "jsonp",
       async: true,
       url: this.restServiceURL+"?"+this.restParams,
-      crossDomain: true,
       success: function(data){
         var JSONresponse = data;
         $.each(JSONresponse, function(index, value){
@@ -494,6 +493,7 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
         successCallback();
       },
       error: function(){
+        console.log('error')
         currObjInstance.tweets.push({text:currObjInstance.errorText, created_at:"Tue Jun 03 00:00:00 +0000 1986 "});
       }
     })
