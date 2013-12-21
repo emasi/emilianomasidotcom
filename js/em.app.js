@@ -154,9 +154,11 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
             
           }
           
-          var elementOffsetTop = element.offset().top, currentScrollTop = scrollService.scrollTop();
+          var elementOffsetTop = element.offset().top,
+          currentScrollTop = scrollService.scrollTop();
+
           uiService.setBatchCSS(parallaxContainerElement, {left:0, top: (elementOffsetTop-currentScrollTop)});
-          uiService.setBatchCSS(parallaxImageElement, {left:0, top: (-((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925))});
+          uiService.setBatchCSS(parallaxImageElement, {left:0, top: (getParallaxValue())});
 
         }else if(!isInView() && isInViewState){
           uiService.setBatchCSS(parallaxContainerElement, {height: 0, visibility:"hidden"});
@@ -168,6 +170,19 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
         var elementOffsetTop = element.offset().top,
         currentScrollTop = scrollService.scrollTop();
         return (elementOffsetTop+element.outerHeight() >= currentScrollTop) && (elementOffsetTop <= currentScrollTop+win.height());
+      }
+      
+      function getParallaxValue(){
+        var currentWindowWidth = window.outerWidth,
+        elementOffsetTop = element.offset().top,
+        currentScrollTop = scrollService.scrollTop();
+        if(currentWindowWidth>=1201){
+          return -((elementOffsetTop-currentScrollTop)*0.35)-(element.outerHeight()*0.925);
+        }else if(currentWindowWidth>=768){
+          return -((elementOffsetTop-currentScrollTop)*0.2)-((parallaxImageElement.outerHeight()-($(window).width()*(16/24)))*0.5);
+        }else{
+          return -((elementOffsetTop-currentScrollTop)*0.5)-(element.outerHeight()*0.925);
+        }
       }
       
       init();

@@ -663,6 +663,135 @@ background-position-y: -763px;
 /*-- END: Parallax --*/
 
 /*-- BEGIN: Desktop Mediaquery --*/
+@media only screen and (min-width: 481px){
+  .cover h1 {
+  padding-left: 20px;
+  }
+  .cover h2 {
+  font-size: 1.5em;
+  }
+  #about-me h2, #timeline h2, #contact h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  }
+  #top-bar {
+  height: 59px;
+  }
+  .inner {
+  width:460px;
+  }
+  .complete-name {
+  font-size: 1.5em;
+  line-height: 2.5em;
+  font-weight: 200;
+  padding: 0 15px;
+  cursor: pointer;
+  }
+  #timeline .heading-year {
+  margin: 50px 0 50px 74px;
+  }
+  #timeline .heading-year:first-child{
+  margin-top:0;
+  }
+  #timeline .heading-year h3 {
+  font-size: 3.5em;
+  font-weight: 300;
+  line-height: 0.85em;
+  }
+  #timeline .event .desc{
+  line-height: 1.5em;
+  margin-left: 120px;
+  padding-left: 10px;
+  }
+  #timeline .event .desc h4 {
+  font-weight: 500;
+  font-size: 1.2em;
+  }
+  #timeline .list-container {
+  position: relative;
+  padding-top: 10px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  section{
+  margin-bottom: 6.5625em;
+  }
+}
+@media only screen and (min-width: 769px){
+  #top-bar {
+  height: 59px;
+  }
+  .inner {
+  width:750px;
+  }
+  .about-me-desc {
+  background-image: url("../images/aboutme/aboutme.png");
+  background-position: 88% 31%;
+  background-size: 550px;
+  background-repeat: no-repeat;
+  }
+  .about-me-desc p:nth-child(3){
+  width: 260px;
+  }
+  .about-me-desc p:nth-child(4){
+  width: 178px;
+  }
+  .section-break{
+  height:400px;
+  }
+  .parallax-image, .interactive-image {
+  height: 800px;
+  }
+  .brain-parallax .parallax-image{
+  background-image: url("../images/parallax/brain_parallax_1200.jpg");
+  }
+  .brain-parallax .left-brain, .brain-parallax .right-brain{
+  width:260px;
+  }
+  .brain-parallax h3{
+  font-size: 4em;
+  font-weight: 300;
+  line-height: 1em;
+  margin-top: 5px;
+  }
+  .brain-parallax h4 {
+  font-size: 1.5em;
+  line-height: 1.3em;
+  font-weight: 300;
+  }
+  .brain-parallax p{
+  font-size: 0.9em;
+  line-height: 1.5em;
+  margin-top: 25px;
+  }
+  .twitter-parallax .parallax-image{
+  background-image: url("../images/parallax/twitter_parallax_1200.jpg");
+  }
+  .twitter-widget-container .tweet .text {
+  font-size: 1em;
+  }
+  #timeline .heading-year {
+  margin: 50px 0 50px 74px;
+  }
+  #timeline .heading-year:first-child{
+  margin-top:0;
+  }
+  #timeline .heading-year h3 {
+  font-size: 3.5em;
+  font-weight: 300;
+  line-height: 0.85em;
+  }
+  #timeline .event .desc{
+  line-height: 1.5em;
+  margin-left: 120px;
+  padding-left: 10px;
+  }
+  #timeline .event .desc h4 {
+  font-weight: 500;
+  font-size: 1.4em;
+  }
+}
 @media only screen and (min-width: 1201px){
   .cover h1{
   font-size:4em;
@@ -680,18 +809,14 @@ background-position-y: -763px;
   font-size:1.5em;
   }
   .inner {
-  width:1200px;
+  width:1184px;
   }
   .complete-name {
   font-size: 2em;
   line-height: 1.8em;
-  font-weight: 200;
-  padding: 0 15px;
-  cursor:pointer;
   }
   #about-me h2, #timeline h2, #contact h2 {
   font-size: 3.5em;
-  margin-bottom: 20px;
   }
   .about-me-desc {
   background-image: url("../images/aboutme/aboutme.png");
@@ -742,33 +867,5 @@ background-position-y: -763px;
   .twitter-parallax .parallax-image{
   background-image: url("../images/parallax/twitter_parallax_2400.jpg");
   }
-  #timeline .heading-year {
-  margin: 50px 0 50px 74px;
-  }
-  #timeline .heading-year:first-child{
-  margin-top:0;
-  }
-  #timeline .heading-year h3 {
-  font-size: 3.5em;
-  font-weight: 300;
-  line-height: 0.85em;
-  }
-  #timeline .event .desc{
-  line-height: 1.5em;
-  margin-left: 120px;
-  padding-left: 10px;
-  }
-  #timeline .event .desc h4 {
-  font-weight: 500;
-  font-size: 1.4em;
-  }
 }
-@media only screen and (min-width: 768px){
-  #top-bar {
-  height: 59px;
-  }
-  section{
-  margin-bottom: 6.5625em;
-  }
 /*-- END: Desktop Mediaquery --*/
-}
