@@ -34,7 +34,7 @@
 angular.module("em", ["ngRoute"]);
 
 angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollService", function(scope, timeout, scrollService){
-  scope.appVersion = "0.9";
+  scope.appVersion = "0.9.1";
   scope.emailAddress = "info@emilianomasi.com";
   
   scope.openingHeaderImagePath;
