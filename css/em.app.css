@@ -663,12 +663,91 @@ background-position-y: -763px;
 /*-- END: Parallax --*/
 
 /*-- BEGIN: Desktop Mediaquery --*/
+@media screen and (max-width: 480px) and (min-width: 300px){
+  .cover h1 {
+  padding-left: 10px;
+  font-size:1.8em;
+  }
+  .cover-quote {
+  padding-top: 40px;
+  }
+  #about-me h2, #timeline h2, #contact h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  }
+  #top-bar {
+  min-width:0;
+  }
+  .inner {
+  width: 100%;
+  }
+  .avatar{
+  background-size: 61%;
+  }
+  .complete-name {
+  display:none;
+  }
+  .dropdown a {
+  line-height: 46px;
+  }
+  #timeline .v-line {
+  left: 50%;
+  margin-left: -2.5px;
+  }
+  #timeline .heading-year {
+  margin: 50px 0 50px 5px;
+  }
+  #timeline .heading-year:first-child{
+  margin-top:0;
+  }
+  #timeline .heading-year h3 {
+  font-size: 2.5em;
+  font-weight: 300;
+  line-height: 0.85em;
+  }
+  #timeline .event .oblo {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  #timeline .event .desc{
+  line-height: 1.5em;
+  margin-left: 0;
+  padding-left: 0;
+  border: none;
+  text-align: center;
+  background-color: white;
+  }
+  #timeline .event .desc h4 {
+  font-weight: 500;
+  font-size: 1.2em;
+  }
+  #timeline .list-container {
+  position: relative;
+  padding-top: 10px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  }
+  #contact .social-links-container {
+  width: auto;
+  }
+  #contact .linkedin-link, #contact .twitter-link {
+  margin-bottom: 10px;
+  }
+  .parallax-container {
+  display:none;
+  }
+}
 @media only screen and (min-width: 481px){
   .cover h1 {
   padding-left: 20px;
   }
   .cover h2 {
   font-size: 1.5em;
+  }
+  .cover-quote {
+  padding-top: 50px;
   }
   #about-me h2, #timeline h2, #contact h2 {
   font-size: 2.5em;
@@ -678,7 +757,7 @@ background-position-y: -763px;
   height: 59px;
   }
   .inner {
-  width:460px;
+  width: 460px;
   }
   .complete-name {
   font-size: 1.5em;
@@ -686,6 +765,9 @@ background-position-y: -763px;
   font-weight: 200;
   padding: 0 15px;
   cursor: pointer;
+  }
+  .parallax-container {
+  display:none;
   }
   #timeline .heading-year {
   margin: 50px 0 50px 74px;
@@ -719,9 +801,6 @@ background-position-y: -763px;
   }
 }
 @media only screen and (min-width: 769px){
-  #top-bar {
-  height: 59px;
-  }
   .inner {
   width:750px;
   }
@@ -820,7 +899,7 @@ background-position-y: -763px;
   }
   .about-me-desc {
   background-image: url("../images/aboutme/aboutme.png");
-  background-position: 120% 47%;
+  background-position: 120% 55%;
   background-size: 1000px;
   background-repeat: no-repeat;
   }
