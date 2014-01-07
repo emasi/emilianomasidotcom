@@ -69,8 +69,6 @@ function get_twitter_access_token( $consumer_key = 'INSERT_CONSUMER_KEY', $consu
 	// Get and decode the JSON return in result of CURL
 	if ($oauthResponse)
 		$oauthResponse = json_decode($oauthResponse);
-	
-	print_r ($oauthResponse->access_token);
 
 	// If a bearer type token found, return the token
 	if ( $oauthResponse && property_exists($oauthResponse, 'token_type') && $oauthResponse->token_type === 'bearer' )

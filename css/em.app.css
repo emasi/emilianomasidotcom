@@ -739,6 +739,11 @@ background-position-y: -763px;
   display:none;
   }
 }
+@media screen and (max-width: 768px) and (min-width: 481px){
+.parallax-container {
+  display:none;
+  }
+}
 @media only screen and (min-width: 481px){
   .cover h1 {
   padding-left: 20px;
@@ -765,9 +770,6 @@ background-position-y: -763px;
   font-weight: 200;
   padding: 0 15px;
   cursor: pointer;
-  }
-  .parallax-container {
-  display:none;
   }
   #timeline .heading-year {
   margin: 50px 0 50px 74px;

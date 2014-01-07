@@ -482,7 +482,7 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
     this.restParams = "count="+this.count+"&screen_name=EmilianoMasi";
     var currObjInstance = this;
     $.ajax({
-      dataType: "jsonp",
+      dataType: "json",
       async: true,
       url: this.restServiceURL+"?"+this.restParams,
       success: function(data){
@@ -492,8 +492,9 @@ var TwitterWidgetDirective = AbstractAngularDirective.extend({
         });
         successCallback();
       },
-      error: function(){
-        console.log('error')
+      error: function( jqXHR, textStatus, errorThrown){
+        console.log("error: "+ errorThrown+", textStatus: "+ textStatus);
+        console.log(jqXHR)
         currObjInstance.tweets.push({text:currObjInstance.errorText, created_at:"Tue Jun 03 00:00:00 +0000 1986 "});
       }
     })
