@@ -10,6 +10,7 @@ class ApiController {
 	public function invoke() {
 		header('Content-type: application/json');
 		header('Access-Control-Allow-Origin: http://www.emilianomasi.com');
+		header('Access-Control-Allow-Origin: http://emilianomasi.com');
 		if (isset ( $_GET [$this->constants[module]] )) {
 			if($_GET [$this->constants[module]] == "twitter"){
 				

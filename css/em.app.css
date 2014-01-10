@@ -668,6 +668,10 @@ background-position-y: -763px;
   padding-left: 10px;
   font-size:1.8em;
   }
+  .cover h2 {
+  font-size: 1.5em;
+  margin-top: 30px;
+  }
   .cover-quote {
   padding-top: 40px;
   }
@@ -750,6 +754,7 @@ background-position-y: -763px;
   }
   .cover h2 {
   font-size: 1.5em;
+  margin-top: 30px;
   }
   .cover-quote {
   padding-top: 50px;
