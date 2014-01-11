@@ -396,6 +396,9 @@ width: 10px;
 height: 14px;
 vertical-align: middle;
 }
+.dropdown-list li:hover {
+background-color: rgba(0,0,0,0.4);
+}
 .inner{
 margin-left: auto;
 margin-right: auto;
@@ -548,6 +551,7 @@ height: 320px;
 background-repeat: no-repeat;
 -webkit-backface-visibility: hidden;
 -webkit-perspective: 1000;
+background-size: 100%;
 }
 .parallax-container .parallax-content {
 position: absolute;
@@ -558,7 +562,6 @@ height: 100%;
 .brain-parallax .parallax-image {
 background-image: url("../images/parallax/brain_parallax_480.jpg");
 background-position: center;
-background-size: 100%;
 }
 .brain-parallax .left-brain {
 float: left;
@@ -581,7 +584,6 @@ text-align:center;
 .twitter-parallax .parallax-image {
 background-image: url("../images/parallax/twitter_parallax_480.jpg");
 background-position: center;
-background-size: 100%;
 }
 .twitter-parallax.section-break{
 margin-bottom:0;
@@ -659,8 +661,26 @@ text-indent: -9999px;
 .twitter-widget-container .navigation .previous.active, .twitter-widget-container .navigation .next.active{
 background-position-y: -763px;
 }
-
 /*-- END: Parallax --*/
+
+/*-- BEGIN: Mobile main --*/
+.mobile .twitter-parallax.section-break{
+text-shadow: 2px 2px 4px #000000;
+}
+.mobile .dropdown-sections-container {
+position: absolute;
+top: 59px;
+left: 0;
+right: 0;
+}
+.mobile #sections-list {
+border: none;
+font-size: 1.6em;
+}
+.mobile #sections-list li{
+border-top:1px solid;
+}
+/*-- END: Mobile main --*/
 
 /*-- BEGIN: Desktop Mediaquery --*/
 @media screen and (max-width: 480px) and (min-width: 300px){
@@ -742,10 +762,25 @@ background-position-y: -763px;
   .parallax-container {
   display:none;
   }
+  .mobile section[class*='-parallax']{
+  display:none;
+  }
+  .mobile .dropdown-sections-container {
+  top: 46px;
+  }
+  .mobile #sections-list {
+  font-size: 1.2em;
+  }
 }
 @media screen and (max-width: 768px) and (min-width: 481px){
-.parallax-container {
+  .parallax-container {
   display:none;
+  }
+  .mobile section[class*='-parallax']{
+  display:none;
+  }
+    .mobile #sections-list {
+  font-size: 1.2em;
   }
 }
 @media only screen and (min-width: 481px){
@@ -829,7 +864,7 @@ background-position-y: -763px;
   .parallax-image, .interactive-image {
   height: 800px;
   }
-  .brain-parallax .parallax-image{
+  .brain-parallax .parallax-image, .mobile .brain-parallax.section-break{
   background-image: url("../images/parallax/brain_parallax_1200.jpg");
   }
   .brain-parallax .left-brain, .brain-parallax .right-brain{
@@ -851,7 +886,7 @@ background-position-y: -763px;
   line-height: 1.5em;
   margin-top: 25px;
   }
-  .twitter-parallax .parallax-image{
+  .twitter-parallax .parallax-image, .mobile .twitter-parallax.section-break{
   background-image: url("../images/parallax/twitter_parallax_1200.jpg");
   }
   .twitter-widget-container .tweet .text {
@@ -876,6 +911,18 @@ background-position-y: -763px;
   #timeline .event .desc h4 {
   font-weight: 500;
   font-size: 1.4em;
+  }
+  .mobile .section-break{
+  background-size:100%;
+  background-position: center;
+  }
+  .mobile .complete-name {
+  font-size: 2.1em;
+  line-height: 1.6em;
+  }
+  .mobile .dropdown >a {
+  font-size: 1.8em;
+  height:59px;
   }
 }
 @media only screen and (min-width: 1201px){
@@ -928,7 +975,7 @@ background-position-y: -763px;
   .parallax-image, .interactive-image {
   height: 1600px;
   }
-  .brain-parallax .parallax-image{
+  .brain-parallax .parallax-image, .mobile .brain-parallax.section-break{
   background-image: url("../images/parallax/brain_parallax_2400.jpg");
   }
   .brain-parallax .left-brain, .brain-parallax .right-brain{
@@ -950,7 +997,7 @@ background-position-y: -763px;
   line-height: 1.8em;
   margin-top:50px;
   }
-  .twitter-parallax .parallax-image{
+  .twitter-parallax .parallax-image, .mobile .twitter-parallax.section-break{
   background-image: url("../images/parallax/twitter_parallax_2400.jpg");
   }
 }
