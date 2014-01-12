@@ -34,7 +34,7 @@
 angular.module("em", ["ngRoute"]);
 
 angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollService", function(scope, timeout, scrollService){
-  scope.appVersion = "0.9.1";
+  scope.appVersion = "0.9.2";
   scope.emailAddress = "info@emilianomasi.com";
   
   scope.openingHeaderImagePath;
@@ -123,27 +123,29 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
       
       function init(){
         win = $(window);
-        parallaxParentElement = $("."+parallaxParentClass);
-        parallaxContainerElement = $(document.createElement("div"));
-        parallaxImageElement = $(document.createElement("div"));
-        parallaxContentElement = $(document.createElement("div"));
-        
-        parallaxContainerElement.addClass(parallaxContainerClass);
-        parallaxContainerElement.addClass(element.attr("class").split(" ")[0]);
-        parallaxImageElement.addClass(parallaxImageClass);
-        parallaxContentElement.addClass(parallaxContentClass);
-        
-        //TODO check for mobile vs desktop
-        parallaxContainerElement.append(parallaxImageElement);
-        parallaxContainerElement.append(parallaxContentElement);
-        $(element.find(".inner")[0]).appendTo(parallaxContentElement);
-        parallaxParentElement.append(parallaxContainerElement);
-        
-        parallaxContainerElement.css("visibility","hidden");
-        
-        scrollService.addScrollEventCallback(startEffect);
-        resizeService.addResizeEventCallback(startEffect);
-        
+        if(!ComplexDetection.isDesktop()){
+          $('body').addClass('mobile');
+        }else{
+          parallaxParentElement = $("."+parallaxParentClass);
+          parallaxContainerElement = $(document.createElement("div"));
+          parallaxImageElement = $(document.createElement("div"));
+          parallaxContentElement = $(document.createElement("div"));
+          
+          parallaxContainerElement.addClass(parallaxContainerClass);
+          parallaxContainerElement.addClass(element.attr("class").split(" ")[0]);
+          parallaxImageElement.addClass(parallaxImageClass);
+          parallaxContentElement.addClass(parallaxContentClass);
+          
+          parallaxContainerElement.append(parallaxImageElement);
+          parallaxContainerElement.append(parallaxContentElement);
+          $(element.find(".inner")[0]).appendTo(parallaxContentElement);
+          parallaxParentElement.append(parallaxContainerElement);
+          
+          parallaxContainerElement.css("visibility","hidden");
+          
+          scrollService.addScrollEventCallback(startEffect);
+          resizeService.addResizeEventCallback(startEffect);
+        }
       }
       
       function startEffect(){
