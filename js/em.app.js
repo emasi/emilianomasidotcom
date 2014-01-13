@@ -118,7 +118,6 @@ angular.module("em").directive("parallax", ["$rootScope", "scrollService", "resi
       parallaxContainerElement,
       parallaxImageElement,
       parallaxContentElement,
-      parallaxContainerElementPosition,
       isInViewState;
       
       function init(){
@@ -201,7 +200,6 @@ angular.module("em").directive("twitterWidget", [function(){
 }]);
 
 angular.module("em").directive("sectionFocus", ["$rootScope", "scrollService", "resizeService", function(rootScope, scrollService, resizeService){
-  var sectionFocusInstance;
   return {
     link: function(scope, element, attrs) {
       var currentSectionName = element.attr("data-menu-name");
