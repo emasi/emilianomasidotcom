@@ -6,13 +6,12 @@
     <meta content="telephone=no" name="format-detection">
     <title>Emiliano Masi - Creative Engineer</title>
     
+    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
     <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" media="screen" rel="stylesheet">
     <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed:400" media="screen" rel="stylesheet">
     <link rel="icon" href="https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png" type="image/png">
-    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="css/em.app.css" type="text/css" media="screen" />
     
-    <script src="js/modernizr.js"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -21,8 +20,8 @@
     
       ga('create', 'UA-34599580-2', 'emilianomasi.com');
       ga('send', 'pageview');
-    
     </script>
+    
   </head>
   
   <body ng-controller="MainCtrl">
@@ -42,10 +41,12 @@
         </div>
       </div>
     </header>
-    <div class="z-max hidden" id="container" data-container>
+    <div id="container" class="z-max hidden" data-container itemscope itemtype="http://data-vocabulary.org/Person">
       <div id="top-bar" class="z-max black-opaque" data-top-bar="" role="top-navigation">
-        <div class="avatar" ng-click="onDropDownClicked('HomeSelected')"></div>
-        <div class="complete-name" ng-click="onDropDownClicked('HomeSelected')">
+        <div class="avatar" ng-click="onDropDownClicked('HomeSelected')">
+          <img class="hidden" src="http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/1/000/1a0/060/1a6e93e.jpg" itemprop="photo"/>
+        </div>
+        <div class="complete-name" ng-click="onDropDownClicked('HomeSelected')" itemprop="name">
           Emiliano Masi
         </div>
         <nav class="dropdown clearfix" role="navigation">
@@ -83,7 +84,7 @@
                 the opportunity to work on real big critical projects understanding the approaches to the different development processes in an enterprise context.</p>
               <p>
                 In the meanwhile, after that my internship day was over, I worked on my own start-up (
-                <a href="http://www.showon.it" target="_blank">www.showon.it</a>
+                <a href="http://www.showon.it" target="_blank">ShowOn S.r.l.</a>
                 ) that has been launched as beta release three days before my graduation day in the last week of February 2011. It is a vertical social network that has as main target the entire
                 dance world. Currently counts more than 20k registered users between amateurs, professionals, and organizations related to the international dance
                 world.
@@ -99,7 +100,7 @@
               <p>
                 In July 2012, I moved from Rome to Germany and I started to work in the German public sector at
                 <a href="http://www.fiz-karlsruhe.de/" target="_blank">FIZ Karlsruhe</a>
-                (Fachinformationszentrum Karlsruhe) as Software Engineer/Certified Usability Analyst in the IT, Development &amp; Applied Research department. Here
+                (Fachinformationszentrum Karlsruhe) as Software Engineer/Usability Analyst in the IT, Development &amp; Applied Research department. Here
                 we are especially working on rich internet applications like: Deutsche Digitale Bibliothek (German Digital Library), Archive Portal D, and Thieme.
               </p>
             </div>
@@ -164,7 +165,7 @@
                     <div class="desc bl">
                       <div class="date">15.07.2012 - Present [Current Position]</div>
                       <h4>
-                        Fachinformationszentrum Karlsruhe<br> Software Engineer/Usability Analyst - IT, Development & Applied Research
+                        <span itemprop="affiliation_fiz">Fachinformationszentrum Karlsruhe</span><br> <span itemprop="title_fiz">Software Engineer/Usability Analyst</span> - IT, Development & Applied Research
                       </h4>
                       Main projects:<br> <br> &ldquo;German Digital Library (DDB)&rdquo;<br>
                       <a href="http://www.ddb.de" target="_blank">www.deutsche-digitale-bibliothek.de</a>
@@ -211,7 +212,7 @@
                     <div class="oblo"></div>
                     <div class="desc bl">
                       <div class="date">23.02.2011 - Present [Work Experience]</div>
-                      <h4>Co-Founder & CIO - Presentation & UI Layer @ ShowOn S.r.l.</h4>
+                      <h4><span itemprop="title_showon">Co-Founder & CIO - Presentation & UI Layer</span> @ <span itemprop="affiliation_showon">ShowOn S.r.l.</span></h4>
                       <a href="http://www.showon.it" target="_blank">www.showon.it</a><br>ShowOn is a vertical social network that has as main target the entire dance world. It counts more than 20.000
                       registered users between amateurs, professionals, and organizations related to the international dance world.
                     </div>
@@ -244,8 +245,8 @@
                 <div class="info"></div>
               </div>
               <div class="navigation">
-                <a href="#" class="previous">previous tweet</a>
-                <a href="#" class="next">next tweet</a>
+                <a href="#" class="previous" title="previous tweet">previous tweet</a>
+                <a href="#" class="next" title="next tweet">next tweet</a>
               </div>
             </div>
           </div>
@@ -258,9 +259,10 @@
               <a href="mailto:{{emailAddress}}">{{emailAddress}}</a>
             </div>
             <div class="social-links-container">
-              <a href="http://de.linkedin.com/pub/emiliano-masi/58/339/b88/" target="_blank" title="Go to LinkedIn profile" class="linkedin-link">LinkedIn Emiliano Masi</a>
-              <a href="http://twitter.com/EmilianoMasi" target="_blank" title="Go to Twitter profile" class="twitter-link">Twitter Emiliano Masi</a>
-              <a href="http://github.com/emasi" target="_blank" title="Go to GitHub profile" class="github-link">GitHub Emiliano Masi</a>
+              <a href="http://de.linkedin.com/pub/emiliano-masi/58/339/b88/" target="_blank" title="Go to LinkedIn profile" class="linkedin-link" itemprop="url">Emiliano Masi's LinkedIn</a>
+              <a href="http://twitter.com/EmilianoMasi" target="_blank" title="Go to Twitter profile" class="twitter-link" itemprop="url">Emiliano Masi's Twitter</a>
+              <a href="http://github.com/emasi" target="_blank" title="Go to GitHub profile" class="github-link" itemprop="url">Emiliano Masi's GitHub</a>
+              <a href="https://plus.google.com/+EmilianoMasi?rel=author" class="hidden">Google</a>
             </div>
             <div class="appVersion">
               current application version<br>v.{{appVersion}}
@@ -270,6 +272,7 @@
       </div>
     </div>
     <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/modernizr.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js"></script>
     <script type="text/javascript" src="js/TweenMax.min.js"></script>
