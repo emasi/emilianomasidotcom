@@ -453,9 +453,13 @@ var TopBarDirective = AbstractAngularDirective.extend({
     var currObjInstance = this;
     this.dropdownSectionsListIsActive = signal;
     if(signal){
-      TweenMax.to(currObjInstance.dropdownSectionsList, .3, {top:0, alpha:1, ease:Expo.easeOut});
+      TweenMax.to(currObjInstance.dropdownSectionsList, .3, {top:0, alpha:1, ease:Expo.easeOut, onStart: function(){
+        currObjInstance.dropdownSectionsList.css("visibility","visible");
+      }});
     }else{
-      TweenMax.to(this.dropdownSectionsList, .3, {top:-(currObjInstance.dropdownSectionsList.outerHeight()+currObjInstance.$element.outerHeight()), alpha:0, ease:Expo.easeOut});
+      TweenMax.to(this.dropdownSectionsList, .3, {top:-(currObjInstance.dropdownSectionsList.outerHeight()+currObjInstance.$element.outerHeight()), alpha:0, ease:Expo.easeOut, onComplete: function(){
+        currObjInstance.dropdownSectionsList.css("visibility","hidden");
+      }});
     }
   },
 });
