@@ -356,7 +356,7 @@ text-align: center;
 width: 60px;
 background-image: url("https://pbs.twimg.com/profile_images/468066494593503234/6YzB0jCc_bigger.png");
 background-repeat: no-repeat;
-background-position: 10px 5px;
+background-size: cover;
 cursor:pointer;
 }
 #top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
