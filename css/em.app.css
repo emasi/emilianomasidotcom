@@ -354,9 +354,9 @@ text-align: center;
 }
 .avatar{
 width: 60px;
-background-image: url("https://pbs.twimg.com/profile_images/2692016034/b455f6bddea46ef54c6ceb94f0e6fd17_normal.png");
+background-image: url("https://pbs.twimg.com/profile_images/468066494593503234/6YzB0jCc_bigger.png");
 background-repeat: no-repeat;
-background-position: 10px 5px;
+background-size: cover;
 cursor:pointer;
 }
 #top-bar .bt, #top-bar .br, #top-bar .bb, #top-bar .bl{
@@ -451,6 +451,9 @@ position: absolute;
 #timeline .event .oblo{
 background: url("../images/timeline_sprite.png") 0 0 no-repeat;
 background-repeat: no-repeat;
+}
+#timeline .event.e8 .oblo{
+background-position: 0 -604px;
 }
 #timeline .event.e7 .oblo{
 background-position: 0 0;
