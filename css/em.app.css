@@ -452,6 +452,9 @@ position: absolute;
 background: url("../images/timeline_sprite.png") 0 0 no-repeat;
 background-repeat: no-repeat;
 }
+#timeline .event.e8 .oblo{
+background-position: 0 -604px;
+}
 #timeline .event.e7 .oblo{
 background-position: 0 0;
 }
