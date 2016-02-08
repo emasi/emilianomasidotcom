@@ -1,10 +1,13 @@
 <?php
 include_once (realpath(__DIR__ . '/../models/TwitterModel.php'));
+include_once (realpath(__DIR__ . '/../models/MailModel.php'));
 
 class ApiController {
 	public $model;
+	private $ERROR_METHOD_NOT_FOUND = 'Method not found.';
+	private $ERROR_BAD_SYNTAX = 'The request cannot be fulfilled due to bad syntax.';
 	private $constants = array(module => 'module', method => 'method');
-	private $allowedOrigins = array("http://www.emilianomasi.com","http://emilianomasi.com");
+	private $allowedOrigins = array("http://www.emilianomasi.com","http://emilianomasi.com", "http://emilianoemariasposi.emilianomasi.com", "http://emilianoandmariawedding.emilianomasi.com", "http://www.emilianoemariasposi.emilianomasi.com", "http://www.emilianoandmariawedding.emilianomasi.com");
 	public function __construct() {}
 	
 	private function checkCORs(){
@@ -27,17 +30,19 @@ class ApiController {
 					$this->model = new TwitterModel();
 					$tweets = $this->model->getTweets($_GET);
 					echo $tweets;
-				}else{
-					$error = array(status => '404', message => 'Method not found.');
-					echo json_encode($error);
+					return;
 				}
-				
-			}else{
-				$error = array(status => '404', message => 'Module not found.');
-				echo json_encode($error);
+			}else if($_GET [$this->constants[module]] == "mail"){
+				if($_GET [$this->constants[method]] == "wedding-rsvp"){
+					$this->model = new MailModel();
+					echo json_encode($this->model->buildAndSendWeddingMail($_POST));
+					return;
+				}
 			}
+			$error = array(status => '404', message => $this->$ERROR_METHOD_NOT_FOUND);
+			echo json_encode($error);
 		} else {
-			$error = array(status => '400', message => 'The request cannot be fulfilled due to bad syntax.');
+			$error = array(status => '400', message => $this->$ERROR_BAD_SYNTAX);
 			echo json_encode($error);
 		}
 	}
