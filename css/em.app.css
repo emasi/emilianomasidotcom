@@ -768,7 +768,7 @@ border-top:1px solid;
   .mobile section[class*='-parallax']{
   display:none;
   }
-  .mobile .dropdown-sections-container {
+  .mobile .dropdown-sections-container { 
   top: 46px;
   }
   .mobile #sections-list {
@@ -848,18 +848,6 @@ border-top:1px solid;
 @media only screen and (min-width: 769px){
   .inner {
   width:750px;
-  }
-  .about-me-desc {
-  background-image: url("../images/aboutme/aboutme.png");
-  background-position: 88% 31%;
-  background-size: 550px;
-  background-repeat: no-repeat;
-  }
-  .about-me-desc p:nth-child(3){
-  width: 260px;
-  }
-  .about-me-desc p:nth-child(4){
-  width: 178px;
   }
   .section-break{
   height:400px;
@@ -954,26 +942,11 @@ border-top:1px solid;
   #about-me h2, #timeline h2, #contact h2 {
   font-size: 3.5em;
   }
-  .about-me-desc {
-  background-image: url("../images/aboutme/aboutme.png");
-  background-position: 120% 55%;
-  background-size: 1000px;
-  background-repeat: no-repeat;
-  }
-  .about-me-desc p:nth-child(3){
-  width: 580px;
-  }
-  .about-me-desc p:nth-child(4){
-  width: 490px;
-  }
-  .about-me-desc p:nth-child(5){
-  width: 390px;
-  }
-  .about-me-desc p:nth-child(6){
-  width: 220px;
+  .about-me-desc img{
+  width: 100%;
   }
   .section-break{
-  height:500px;
+  height: 500px;
   }
   .parallax-image, .interactive-image {
   height: 1600px;
