@@ -413,6 +413,9 @@ position: relative;
 margin-top:0;
 padding-top: 50px;
 }
+.mission {
+font-weight: 500;
+}
 .about-me-desc {
 padding: 20px 20px 20px 20px;
 }
@@ -422,7 +425,7 @@ width: 100%;
 .about-me-desc p {
 margin: 15px 0;
 }
-#timeline h2, #contact h2 {
+#about-me h2, #timeline h2, #contact h2 {
 text-align:center;
 }
 #timeline .list-container {
