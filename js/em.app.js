@@ -34,7 +34,7 @@
 angular.module("em", ["ngRoute"]);
 
 angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollService", function(scope, timeout, scrollService){
-  scope.appVersion = "0.9.3";
+  scope.appVersion = "1.0.1";
   scope.emailAddress = "info@emilianomasi.com";
   
   scope.openingHeaderImagePath;
@@ -83,14 +83,40 @@ angular.module("em").controller("MainCtrl", ["$scope", "$timeout", "scrollServic
 
 angular.module("em").directive("container", [function(){
   var winObj = $(window);
+  var header = $('header');
+  var orientations = ["portrait", "landscape"]
+  var currentOrientation = (ComplexDetection.isPortrait() ? orientations[0] : orientations[1]);
   function setMarginTop(){
-    $("#container").css('margin-top', $('header').outerHeight()+"px");
+    $("#container").css('margin-top', header.outerHeight()+"px");
+  }
+  function setHeaderHeight() {
+    header.css('height', '');
+    header.css('height', header.outerHeight()+"px");
+  }
+  function isOrientationChanged(){
+    if((currentOrientation == orientations[0] && ComplexDetection.isLandscape()) || 
+        (currentOrientation == orientations[1] && ComplexDetection.isPortrait())){
+      currentOrientation = (ComplexDetection.isPortrait() ? orientations[0] : orientations[1]);
+      return true;
+    }else {
+      return false;
+    }
   }
   return {
     link: function (scope, element, attrs){
       setMarginTop();
+      if(!ComplexDetection.isDesktop()){
+        setHeaderHeight();
+      }
       winObj.on("resize", function(){
-        setMarginTop();
+        if(ComplexDetection.isDesktop()){
+          setMarginTop();
+        }else{
+          if(isOrientationChanged()){
+            setHeaderHeight();
+            setMarginTop();
+          }
+        }
       });
       element.removeClass("hidden");
     }
@@ -222,15 +248,15 @@ angular.module("em").directive("sectionFocus", ["$rootScope", "scrollService", "
 //------ Services ------
 
 angular.module("em").service("scrollService", ["$rootScope", function(rootScope) {
-  var win = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight(), callbacksStack = [], isWindowCallbackSetted = false;
+  var win = $(window), globalContainers = $("html, body"), headerHeight = $("header").outerHeight(), callbacksStack = [], isWindowCallbackSet = false;
   
   function windowCallbackManager(){
-    if (callbacksStack.length > 0 && !isWindowCallbackSetted) {
+    if (callbacksStack.length > 0 && !isWindowCallbackSet) {
       win.on("scroll.scrollService", runCallbacksStack);
-      isWindowCallbackSetted = true
-    } else if (callbacksStack.length == 0 && isWindowCallbackSetted) {
+      isWindowCallbackSet = true
+    } else if (callbacksStack.length == 0 && isWindowCallbackSet) {
       win.off("scroll.scrollService");
-      isWindowCallbackSetted = false
+      isWindowCallbackSet = false
     }
   }
   
@@ -277,15 +303,15 @@ angular.module("em").service("scrollService", ["$rootScope", function(rootScope)
 }]);
 
 angular.module("em").service("resizeService", ["$rootScope", function(rootScope) {
-  var win = $(window), callbacksStack = [], isWindowCallbackSetted = false;
+  var win = $(window), callbacksStack = [], isWindowCallbackSet = false;
   
   function windowCallbackManager(){
-    if (callbacksStack.length > 0 && !isWindowCallbackSetted) {
+    if (callbacksStack.length > 0 && !isWindowCallbackSet) {
       win.on("resize.resizeService", runCallbacksStack);
-      isWindowCallbackSetted = true
-    } else if (callbacksStack.length == 0 && isWindowCallbackSetted) {
+      isWindowCallbackSet = true
+    } else if (callbacksStack.length == 0 && isWindowCallbackSet) {
       win.off("resize.resizeService");
-      isWindowCallbackSetted = false
+      isWindowCallbackSet = false
     }
   }
   
@@ -430,13 +456,11 @@ var TopBarDirective = AbstractAngularDirective.extend({
       if(!this.isInPositionRelative){
         this.$element.css("position","relative");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().children("#"+contentId).css("margin-top","0");
       }
     }else{
       if(this.isInPositionRelative){
         this.$element.css("position","fixed");
         this.isInPositionRelative = !this.isInPositionRelative;
-        this.$element.parent().children("#"+contentId).css("margin-top", currentHeight+"px");
       }
     }
   },

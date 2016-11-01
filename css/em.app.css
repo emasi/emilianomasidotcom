@@ -281,9 +281,9 @@ min-width: 100%;
 position: fixed;
 top: 0;
 left: 0;
-width: 100%;
-bottom: 0;
 right: 0;
+width: 100%;
+height: 100%;
 }
 .cover {
 margin-right: auto;
@@ -337,6 +337,10 @@ width:100%
 }
 #content .bt, #content .br, #content .bb, #content .bl{
   border-color: #5b6064;
+}
+.top-bar-wrapper {
+height: 59px;
+position: relative;
 }
 #top-bar {
 -moz-box-sizing: content-box;
@@ -456,6 +460,9 @@ position: absolute;
 #timeline .event .oblo{
 background: url("../images/timeline_sprite.png") 0 0 no-repeat;
 background-repeat: no-repeat;
+}
+#timeline .event.e9 .oblo{
+background-position: 0 -757px;
 }
 #timeline .event.e8 .oblo{
 background-position: 0 -665px;

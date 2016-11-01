@@ -10,7 +10,7 @@
     <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" media="screen" rel="stylesheet">
     <link charset="utf-8" href="https://fonts.googleapis.com/css?family=Roboto%20Condensed:400" media="screen" rel="stylesheet">
     <link rel="icon" href="https://pbs.twimg.com/profile_images/468066494593503234/6YzB0jCc_bigger.png" type="image/png">
-    <link rel="stylesheet" href="css/em.app.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/em.app.css?version=1.0" type="text/css" media="screen" />
     
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -42,25 +42,27 @@
       </div>
     </header>
     <div id="container" class="z-max hidden" data-container itemscope itemtype="http://data-vocabulary.org/Person">
-      <div id="top-bar" class="z-max black-opaque" data-top-bar="" role="top-navigation">
-        <div class="avatar" ng-click="onDropDownClicked('HomeSelected')">
-          <img class="hidden" src="http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/1/000/1a0/060/1a6e93e.jpg" itemprop="photo"/>
-        </div>
-        <div class="complete-name" ng-click="onDropDownClicked('HomeSelected')" itemprop="name">
-          Emiliano Masi
-        </div>
-        <nav class="dropdown clearfix" role="navigation">
-          <a class="block-anchor br bl" href="" ng-click="toggleElement('SectionsDropdownToggled')">
-            <span ng-bind="currentSection">&nbsp;</span><span class="arrow-down">&nbsp;</span>
-          </a>
-          <div class="dropdown-sections-container">
-            <ul class="dropdown-list  black-opaque br bl" id="sections-list" ng-class="">
-              <li data-repeat-complete="" ng-repeat="section in sections">
-                <a class="block-anchor" href="" ng-click="onDropDownClicked('SectionSelected',section)">{{section.name}}</a>
-              </li>
-            </ul>
+      <div class="top-bar-wrapper">
+        <div id="top-bar" class="z-max black-opaque" data-top-bar="" role="top-navigation">
+          <div class="avatar" ng-click="onDropDownClicked('HomeSelected')">
+            <img class="hidden" src="http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/1/000/1a0/060/1a6e93e.jpg" itemprop="photo"/>
           </div>
-        </nav>
+          <div class="complete-name" ng-click="onDropDownClicked('HomeSelected')" itemprop="name">
+            Emiliano Masi
+          </div>
+          <nav class="dropdown clearfix" role="navigation">
+            <a class="block-anchor br bl" href="" ng-click="toggleElement('SectionsDropdownToggled')">
+              <span ng-bind="currentSection">&nbsp;</span><span class="arrow-down">&nbsp;</span>
+            </a>
+            <div class="dropdown-sections-container">
+              <ul class="dropdown-list  black-opaque br bl" id="sections-list" ng-class="">
+                <li data-repeat-complete="" ng-repeat="section in sections">
+                  <a class="block-anchor" href="" ng-click="onDropDownClicked('SectionSelected',section)">{{section.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
       </div>
       <div class="parallax-parent"></div>
       <div id="content">
@@ -69,14 +71,13 @@
             <div class="about-me-desc">
               <h2>About me.</h2>
               <img src="../images/aboutme/aboutme.png">
-              <p>In the last years we are witnessing to a major revolution in the technological world. A revolution that opens up new business opportunities by
-                extending the usage of high-tech products not only to tech lovers and to the experts, but also to all those people who before were completely far
-                from it. The dominant factors of this revolution are the user experience and the design (look &amp; feel) of the new products. Whereas before a
-                device or an application was designed and developed essentially to fulfill certain tasks, today the aesthetic has become a crucial point through
-                which a product decides its market price and its number of users who will buy it.</p>
-              <p>Since I was a child I always loved to express myself through two major art forms: music and drawing. What fascinated me was the power of these
-                media in creating different moods through a song or through a simple picture. Applying such qualities to technological products causes an
-                improvement in the perceived quality of the product itself, turning it in an object of pleasure.</p>
+              <p>In the last years we are witnessing to a major revolution in the technological world. A revolution that opens up new business opportunities by 
+              extending the usage of high-tech products not only to tech lovers and experts, but also to all those people who before were completely far from it.</p>
+              <p>Whereas before a device or an application was designed and developed essentially to fulfill certain tasks, nowadays the aspects related to the 
+              emotional feelings perceived from the user while using the product, have become a crucial point through which the product decides its market price, 
+              its life time, and its market share.</p>
+              <p>Merging functionality with emotions, solutions with feelings, and applying such qualities to the next generation products, will cause an 
+              improvement in the user perceived quality.</p>
               <p class="mission">Bring together creativity, design, and efficient solutions to delight people with amazing creations in this new technology era is my
                 mission.</p>
 <!--               <p>A bit about my background, I have a master&rsquo;s degree with honours in Computer Engineering, which took me around 6 years to complete. I -->
@@ -132,11 +133,23 @@
                 <li class="heading-year">
                   <h3>2016</h3>
                 </li>
+                <li class="event e9">
+                  <div class="event-container">
+                    <div class="oblo"></div>
+                    <div class="desc bl">
+                      <div class="date">01.08.2016 - Present [Current Position]</div>
+                      <h4>
+                        <span itemprop="affiliation_bosch">BOSCH Start-up GmbH</span><br> <span itemprop="title_bosch">UX Designer</span> - Mobikee
+                      </h4>
+                      <a href="http://www.bosch-startup.com/" target="_blank">www.bosch-startup.com</a>
+                    </div>
+                  </div>
+                </li>
                 <li class="event e5">
                   <div class="event-container">
                     <div class="oblo"></div>
                     <div class="desc bl">
-                      <div class="date">15.07.2012 - Present [Current Position]</div>
+                      <div class="date">15.07.2012 - 31.07.2016</div>
                       <h4>
                         <span itemprop="affiliation_fiz">Fachinformationszentrum Karlsruhe</span><br> <span itemprop="title_fiz">Software Engineer/UX Designer</span> - IT, Development & Applied Research
                       </h4>
@@ -144,12 +157,25 @@
                     </div>
                   </div>
                 </li>
+                <li class="event e7">
+                  <div class="event-container">
+                    <div class="oblo"></div>
+                    <div class="desc bl">
+                      <div class="date">28.06.2016 [Certification]</div>
+                      <h4>Certified User Experience Analyst</h4>
+                      Human Factors International<br>
+                      License: 2016-406
+                    </div>
+                  </div>
+                </li>
                 <li class="event e2">
                   <div class="event-container">
                     <div class="oblo"></div>
                     <div class="desc bl">
-                      <div class="date">23.02.2011 - Present [Work Experience]</div>
-                      <h4><span itemprop="title_showon">Co-Founder & CIO - Presentation & UI Layer</span> @ <span itemprop="affiliation_showon">ShowOn S.r.l.</span></h4>
+                      <div class="date">23.02.2011 - 30.05.2016 [Work Experience]</div>
+                      <h4>
+                        <span itemprop="affiliation_showon">ShowOn S.r.l.</span><br><span itemprop="title_showon">Co-Founder & CIO - Presentation & UI Layer</span>
+                      </h4>
                       <a href="http://www.showon.it" target="_blank">www.showon.it</a><br>ShowOn is a vertical social network that has as main target the entire dance world. It counts more than 20.000
                       registered users between amateurs, professionals, and organizations related to the international dance world.
                     </div>
@@ -221,7 +247,7 @@
                     <div class="oblo"></div>
                     <div class="desc bl">
                       <div class="date">27.07.2011 - 14.02.2012 [Formative Experience]</div>
-                      <h4>Internship @ IBM [Rome Smart Solutions Lab]</h4>
+                      <h4><span>IBM - Rome Smart Solutions Lab (RSSL)</span><br>Internship</h4>
                       Technical skills/practices in the development of: mobile business applications and web applications. Educational approach to the different
                       development processes in an enterprise context.
                     </div>
@@ -303,7 +329,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js"></script>
     <script type="text/javascript" src="js/TweenMax.min.js"></script>
-    <script src="js/em.app.js"></script>
+    <script src="js/em.app.js?casdadqwd14"></script>
   </body>
   
 </html>
