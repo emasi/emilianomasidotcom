@@ -448,7 +448,7 @@ position: relative;
 #timeline .v-line {
 width: 5px;
 height: 100%;
-background: #5b6064;
+background: #efefef;
 position: absolute;
 left: 44px;
 }
@@ -460,6 +460,9 @@ position: absolute;
 #timeline .event .oblo{
 background: url("../images/timeline_sprite.png") 0 0 no-repeat;
 background-repeat: no-repeat;
+}
+#timeline .event.e10 .oblo{
+background-position: 0 -855px;
 }
 #timeline .event.e9 .oblo{
 background-position: 0 -757px;
